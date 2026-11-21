@@ -1,20 +1,3 @@
-<!--
-  RailShack · 50 Microservices Project by DevOps Shack
-  Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
-  SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
--->
-
-<p align="center">
-  <a href="https://www.youtube.com/@devopsshack">
-    <img src=".github/assets/banner.svg" alt="50 Microservices Project by DevOps Shack" width="100%" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://www.youtube.com/@devopsshack"><img alt="YouTube" src="https://img.shields.io/badge/YouTube-DevOps%20Shack-FF0000?style=for-the-badge&logo=youtube&logoColor=white"></a>
-  <a href="https://devopsshack.com"><img alt="Website" src="https://img.shields.io/badge/devopsshack.com-Learn%20DevOps-00FFA3?style=for-the-badge&logo=googlechrome&logoColor=black"></a>
-  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-0A0D16?style=for-the-badge&logoColor=white"></a>
-</p>
 
 <p align="center">
   <a href="../../actions/workflows/ci.yml"><img alt="CI" src="../../actions/workflows/ci.yml/badge.svg"></a>

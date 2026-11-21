@@ -1,4 +1,4 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 # CI — test all 50 microservices, validate the Helm chart, build and push images to GHCR.
@@ -58,14 +58,14 @@ jobs:
     services:
       postgres:
         image: postgres:16-alpine
-        env: { POSTGRES_DB: railshack, POSTGRES_USER: railshack, POSTGRES_PASSWORD: ci-only-password }
+        env: { POSTGRES_DB: railway-apps, POSTGRES_USER: railway-apps, POSTGRES_PASSWORD: ci-only-password }
         ports: ["5432:5432"]
-        options: --health-cmd "pg_isready -U railshack" --health-interval 5s --health-retries 20
+        options: --health-cmd "pg_isready -U railway-apps" --health-interval 5s --health-retries 20
       redis:
         image: redis:7-alpine
         ports: ["6379:6379"]
     env:
-      DATABASE_URL: postgres://railshack:ci-only-password@localhost:5432/railshack
+      DATABASE_URL: postgres://railway-apps:ci-only-password@localhost:5432/railway-apps
       REDIS_ADDR: localhost:6379
     steps:
       - uses: actions/checkout@v4
@@ -81,7 +81,7 @@ jobs:
         run: for d in libs/gokit services/*/; do [ -f "$d/go.mod" ] && (cd "$d" && go vet ./...); done
       - name: Syntax-check Node and Python services
         run: |
-          for f in services/*/index.js libs/nodekit/railshack-kit/index.js services/frontend/public/app.js; do node --check "$f"; done
+          for f in services/*/index.js libs/nodekit/railway-apps-kit/index.js services/frontend/public/app.js; do node --check "$f"; done
           python3 -m py_compile libs/pykit/railkit.py services/*/app.py
       - name: Start all 50 services
         run: scripts/ci/start-services.sh
@@ -103,11 +103,11 @@ jobs:
           sudo mv kubeconform /usr/local/bin/
       - name: Lint and validate every environment
         run: |
-          helm lint helm/railshack
-          DOMAIN="-f helm/railshack/values-eks.yaml --set access.host=railshack.example.com --set access.alb.certificateArns[0]=arn:aws:acm:ap-south-1:123456789012:certificate/example"
-          for env in "" "-f helm/railshack/values-eks.yaml" "$DOMAIN" "-f helm/railshack/values-eks.yaml -f helm/railshack/values-blackfriday.yaml"; do
+          helm lint helm/railway-apps
+          DOMAIN="-f helm/railway-apps/values-eks.yaml --set access.host=railway-apps.example.com --set access.alb.certificateArns[0]=arn:aws:acm:ap-south-1:123456789012:certificate/example"
+          for env in "" "-f helm/railway-apps/values-eks.yaml" "$DOMAIN" "-f helm/railway-apps/values-eks.yaml -f helm/railway-apps/values-blackfriday.yaml"; do
             echo "::group::helm template $env"
-            helm template railshack helm/railshack -n railshack $env > rendered.yaml
+            helm template railway-apps helm/railway-apps -n railway-apps $env > rendered.yaml
             # Core resources are validated against Kubernetes 1.36. EKS IngressClassParams has no
             # public schema, so it is skipped.
             kubeconform -strict -summary -kubernetes-version 1.36.0 -ignore-missing-schemas \
@@ -129,7 +129,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Image name
-        run: echo "IMAGE=${REGISTRY}/${GITHUB_REPOSITORY_OWNER,,}/railshack-${{ matrix.service }}" >> "$GITHUB_ENV"
+        run: echo "IMAGE=${REGISTRY}/${GITHUB_REPOSITORY_OWNER,,}/railway-apps-${{ matrix.service }}" >> "$GITHUB_ENV"
       - uses: docker/setup-buildx-action@v3
       - uses: docker/login-action@v3
         if: github.event_name != 'pull_request'
@@ -153,7 +153,7 @@ jobs:
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.title=railshack-${{ matrix.service }}
+            org.opencontainers.image.title=railway-apps-${{ matrix.service }}
             org.opencontainers.image.vendor=DevOps Shack
             org.opencontainers.image.url=https://devopsshack.com
             org.opencontainers.image.licenses=Apache-2.0
@@ -190,6 +190,6 @@ jobs:
         run: |
           owner="${GITHUB_REPOSITORY_OWNER,,}"
           for svc in $(echo "$UNCHANGED" | jq -r '.[]'); do
-            img="${REGISTRY}/${owner}/railshack-${svc}"
+            img="${REGISTRY}/${owner}/railway-apps-${svc}"
             docker buildx imagetools create -t "${img}:${TAG}" "${img}:latest"
           done

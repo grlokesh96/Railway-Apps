@@ -1,8 +1,8 @@
-// RailShack · 50 Microservices Project by DevOps Shack
+// Railway-Apps · 50 Microservices Project by DevOps Shack
 // Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 // SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 
-// Package kit is the tiny shared runtime every RailShack Go microservice uses.
+// Package kit is the tiny shared runtime every Railway-Apps Go microservice uses.
 // It gives each service the same production basics: health and readiness
 // probes, Prometheus metrics, structured logs, request-id propagation,
 // service discovery, downstream calls with timeouts, and a trace header that
@@ -31,11 +31,11 @@ import (
 
 // Brand identifies the project in every response, log line and metric.
 const (
-	Brand     = "RailShack by DevOps Shack"
+	Brand     = "Railway-Apps by DevOps Shack"
 	BrandURL  = "https://devopsshack.com"
 	YouTube   = "https://www.youtube.com/@devopsshack"
 	SourceURL = "https://github.com/jaiswaladi246/50-MicroServices-Project-By-DevOpsShack"
-	PoweredBy = "RailShack by DevOps Shack (devopsshack.com)"
+	PoweredBy = "Railway-Apps by DevOps Shack (devopsshack.com)"
 )
 
 type Service struct {
@@ -180,16 +180,16 @@ func (s *Service) metrics(w http.ResponseWriter, r *http.Request) {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
-	fmt.Fprintln(w, "# TYPE railshack_http_requests_total counter")
+	fmt.Fprintln(w, "# TYPE railway-apps_http_requests_total counter")
 	for _, k := range keys {
 		p := strings.Split(k, "|")
-		fmt.Fprintf(w, "railshack_http_requests_total{service=%q,method=%q,code=%q} %d\n", s.Name, p[0], p[1], s.reqs[k])
+		fmt.Fprintf(w, "railway-apps_http_requests_total{service=%q,method=%q,code=%q} %d\n", s.Name, p[0], p[1], s.reqs[k])
 	}
-	fmt.Fprintln(w, "# TYPE railshack_http_request_duration_seconds summary")
-	fmt.Fprintf(w, "railshack_http_request_duration_seconds_sum{service=%q} %f\n", s.Name, s.durSum)
-	fmt.Fprintf(w, "railshack_http_request_duration_seconds_count{service=%q} %d\n", s.Name, s.durCount)
-	fmt.Fprintf(w, "railshack_up{service=%q,language=\"go\"} 1\n", s.Name)
-	fmt.Fprintf(w, "railshack_build_info{service=%q,version=%q,project=%q,source=%q} 1\n", s.Name, s.Version, Brand, SourceURL)
+	fmt.Fprintln(w, "# TYPE railway-apps_http_request_duration_seconds summary")
+	fmt.Fprintf(w, "railway-apps_http_request_duration_seconds_sum{service=%q} %f\n", s.Name, s.durSum)
+	fmt.Fprintf(w, "railway-apps_http_request_duration_seconds_count{service=%q} %d\n", s.Name, s.durCount)
+	fmt.Fprintf(w, "railway-apps_up{service=%q,language=\"go\"} 1\n", s.Name)
+	fmt.Fprintf(w, "railway-apps_build_info{service=%q,version=%q,project=%q,source=%q} 1\n", s.Name, s.Version, Brand, SourceURL)
 }
 
 // Run starts the server and shuts down gracefully on SIGTERM (what Kubernetes sends).

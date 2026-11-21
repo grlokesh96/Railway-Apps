@@ -1,4 +1,4 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 #
@@ -6,7 +6,7 @@
 # search -> book -> PNR -> My Trips -> cancel, checking that booking, My Trips and cancelling
 # refuse requests without a login. Works in Windows PowerShell 5.1 and PowerShell 7.
 #
-# Usage:  .\scripts\smoke-test.ps1 https://railshack.prod-bat.site
+# Usage:  .\scripts\smoke-test.ps1 https://railway-apps.prod-bat.site
 param([Parameter(Mandatory = $true)][string]$BaseUrl)
 
 $ErrorActionPreference = "Stop"
@@ -35,7 +35,7 @@ function Call([string]$Method, [string]$Path, $Body = $null, [string]$Token = ""
 }
 
 $date = (Get-Date).AddDays(1).ToString("yyyy-MM-dd")
-Write-Host "RailShack smoke test -> $BaseUrl"
+Write-Host "Railway-Apps smoke test -> $BaseUrl"
 
 $r = Call GET "/api/platform/status"
 if ($r.Code -ne 200) { Fail "platform status unreachable" }
@@ -100,5 +100,5 @@ Pass "cancelled with refund Rs $($r.Data.refund.amount)"
 if ((Call GET "/api/live-status/12301").Code -eq 200) { Pass "live train status" } else { Fail "live status" }
 if ((Call GET "/api/admin/dashboard").Code -eq 200) { Pass "ops dashboard" } else { Fail "admin dashboard" }
 $r = Call GET "/"
-if ($r.Code -eq 200 -and $r.Text -match "RailShack") { Pass "web UI served" } else { Fail "web UI" }
+if ($r.Code -eq 200 -and $r.Text -match "Railway-Apps") { Pass "web UI served" } else { Fail "web UI" }
 Write-Host "Smoke test passed" -ForegroundColor Green

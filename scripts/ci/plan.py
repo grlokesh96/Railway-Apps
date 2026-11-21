@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 """Decides which of the 50 images CI must rebuild for this commit.

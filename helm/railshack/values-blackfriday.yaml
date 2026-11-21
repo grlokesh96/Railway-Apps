@@ -1,9 +1,9 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 # Black Friday sale: layer this ON TOP of values-eks.yaml.
-#   helm upgrade --install railshack helm/railshack -n railshack \
-#     -f helm/railshack/values-eks.yaml -f helm/railshack/values-blackfriday.yaml --set image.repository=<github-user>
+#   helm upgrade --install railway-apps helm/railway-apps -n railway-apps \
+#     -f helm/railway-apps/values-eks.yaml -f helm/railway-apps/values-blackfriday.yaml --set image.repository=<github-user>
 #
 # The hot path (frontend → gateway → search → seat-map/fares → booking) gets real CPU
 # requests, simulated business logic (workFactor) and aggressive HPAs. When the load test

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 # Lets GitHub Actions deploy to EKS with short-lived OIDC credentials (no access keys in GitHub).
@@ -7,9 +7,9 @@
 # On Windows use the PowerShell version: .\cluster\github-oidc-aws.ps1 -GitHubRepo "<owner>/<repo>"
 set -euo pipefail
 : "${GITHUB_REPO:?set GITHUB_REPO=owner/repo}"
-CLUSTER="${CLUSTER:-railshack}"
+CLUSTER="${CLUSTER:-railway-apps}"
 REGION="${REGION:-ap-south-1}"
-ROLE="${ROLE:-railshack-github-deployer}"
+ROLE="${ROLE:-railway-apps-github-deployer}"
 ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
 # Repositories created after 15 July 2026 use GitHub's immutable subject: repo:<owner>@<owner-id>/<repo>@<repo-id>:...
 OWNER="${GITHUB_REPO%%/*}"; NAME="${GITHUB_REPO#*/}"

@@ -21,7 +21,7 @@
 
 <table>
   <tr>
-    <td width="50%"><img src=".github/assets/screenshot-home.png" alt="RailShack home page" /><p align="center"><b>Home</b> — search trains across 20 stations</p></td>
+    <td width="50%"><img src=".github/assets/screenshot-home.png" alt="Railway-Apps home page" /><p align="center"><b>Home</b> — search trains across 20 stations</p></td>
     <td width="50%"><img src=".github/assets/screenshot-mesh.png" alt="Live microservice mesh" /><p align="center"><b>Live mesh</b> — one booking lights up 29 services</p></td>
   </tr>
   <tr>
@@ -38,7 +38,7 @@
 
 ## 📚 Contents
 
-- [What is RailShack?](#-what-is-railshack)
+- [What is Railway-Apps?](#-what-is-railway-apps)
 - [Architecture](#-architecture)
 - [Data: PostgreSQL + Redis cache](#-data-postgresql--redis-cache)
 - [Monitoring: Prometheus + Grafana](#-monitoring-prometheus--grafana)
@@ -53,9 +53,9 @@
 
 ---
 
-## 🚆 What is RailShack?
+## 🚆 What is Railway-Apps?
 
-RailShack is a complete train booking platform, the kind you would find at a real company: search trains, check seat availability, book for up to 6 passengers, pay by UPI, wallet or card, get a 10-digit PNR and an e-ticket, track your train live, and cancel for a refund.
+Railway-Apps is a complete train booking platform, the kind you would find at a real company: search trains, check seat availability, book for up to 6 passengers, pay by UPI, wallet or card, get a 10-digit PNR and an e-ticket, track your train live, and cancel for a refund.
 
 Behind that UI are **50 microservices in four languages**, split into six domains the way a product company splits them between teams. One booking flows through about 30 of them, and the UI lights up every service a request touches, live.
 
@@ -91,20 +91,20 @@ Like IRCTC, browsing is open and anything personal needs an account.
 - **Sign up / sign in** in the web app. `auth` stores each account in PostgreSQL (table `users`) with only a salted PBKDF2-SHA256 hash of the password, so every auth replica sees the same users.
 - `auth` issues a signed token. The browser sends it as `Authorization: Bearer <token>`, and `api-gateway` passes it through.
 - `booking`, `booking-history` and `cancellation` each ask `auth` who the token belongs to: no token gives **401**, someone else's trips or ticket gives **403**.
-- The token signing key comes from a Kubernetes Secret (`railshack-auth`) that Helm generates once and keeps on upgrades. Set `auth.secret` to choose your own.
+- The token signing key comes from a Kubernetes Secret (`railway-apps-auth`) that Helm generates once and keeps on upgrades. Set `auth.secret` to choose your own.
 - A demo account is ready for live sessions: **`devopsshack` / `devopsshack`** (change it with the `DEMO_PASSWORD` env var on `auth`).
 
 ---
 
 ## 🏗 Architecture
 
-<p align="center"><img src="docs/architecture/overview.png" alt="RailShack architecture: users reach EKS through an AWS Application Load Balancer, frontend and api-gateway route to 50 services, PostgreSQL stores data with Redis as a cache, GitHub Actions builds, scans and deploys with Helm" width="100%"/></p>
+<p align="center"><img src="docs/architecture/overview.png" alt="Railway-Apps architecture: users reach EKS through an AWS Application Load Balancer, frontend and api-gateway route to 50 services, PostgreSQL stores data with Redis as a cache, GitHub Actions builds, scans and deploys with Helm" width="100%"/></p>
 
 Users reach the app through an **AWS Application Load Balancer** that EKS Auto Mode creates for us. The browser only talks to `frontend`, and every API call goes through `api-gateway`, which routes `/api/{service}/*` to the right service at `http://{service}:8080`. Below the line: how a `git push` becomes a Helm deployment.
 
 ### Every service-to-service call
 
-<p align="center"><img src="docs/architecture/call-map.png" alt="Call map of all 50 RailShack services and every call between them" width="100%"/></p>
+<p align="center"><img src="docs/architecture/call-map.png" alt="Call map of all 50 Railway-Apps services and every call between them" width="100%"/></p>
 
 Solid arrows are synchronous HTTP calls (the caller waits). Dashed arrows are fire-and-forget: audit, analytics and notifications can fail without failing the booking. Red dotted arrows are Redis.
 
@@ -132,11 +132,11 @@ The pattern is **cache-aside**:
 
 - **Read:** ask Redis first. On a hit, answer in under a millisecond. On a miss, read PostgreSQL, keep a copy in Redis, then answer.
 - **Write:** change PostgreSQL first, then delete the Redis copy so nobody reads an old status (for example after a cancellation).
-- **Redis wiped?** Nothing is lost. The next read comes from PostgreSQL and fills the cache again. Try it: `kubectl delete pod -l app.kubernetes.io/name=redis -n railshack`, then check a PNR.
+- **Redis wiped?** Nothing is lost. The next read comes from PostgreSQL and fills the cache again. Try it: `kubectl delete pod -l app.kubernetes.io/name=redis -n railway-apps`, then check a PNR.
 
 The PNR page and My Trips show where the answer came from: ⚡ *served from Redis cache* or 🐘 *read from PostgreSQL*. The API returns the same in a `servedFrom` field.
 
-On Kubernetes, PostgreSQL runs as a StatefulSet with a 10 GiB encrypted gp3 EBS volume (EKS Auto Mode provisions it; the chart creates the `railshack-ebs` StorageClass). Its password is generated on first install and kept in the `railshack-postgres` Secret. The volume survives restarts, upgrades and even `helm uninstall`. Redis runs as a pure cache: no disk, and when its memory is full it drops the least recently used keys.
+On Kubernetes, PostgreSQL runs as a StatefulSet with a 10 GiB encrypted gp3 EBS volume (EKS Auto Mode provisions it; the chart creates the `railway-apps-ebs` StorageClass). Its password is generated on first install and kept in the `railway-apps-postgres` Secret. The volume survives restarts, upgrades and even `helm uninstall`. Redis runs as a pure cache: no disk, and when its memory is full it drops the least recently used keys.
 
 > In production you would usually swap the in-cluster PostgreSQL for Amazon RDS and the Redis pod for Amazon ElastiCache: point `DATABASE_URL` and `REDIS_ADDR` at them and nothing else changes.
 
@@ -146,11 +146,11 @@ On Kubernetes, PostgreSQL runs as a StatefulSet with a 10 GiB encrypted gp3 EBS 
 
 Every service publishes Prometheus metrics on `/metrics`: requests per service, method and status code, response time, and an up/down signal. CD installs the community **kube-prometheus-stack** (Prometheus + Grafana, settings in [`cluster/monitoring-values.yaml`](cluster/monitoring-values.yaml)) into the `monitoring` namespace before deploying the app.
 
-- **Prometheus finds all 50 services by itself.** The chart creates a ServiceMonitor that matches every RailShack service, so new replicas are scraped automatically.
+- **Prometheus finds all 50 services by itself.** The chart creates a ServiceMonitor that matches every Railway-Apps service, so new replicas are scraped automatically.
 - **Grafana has its own URL.** `https://grafana.<your domain>` through the same ALB and certificate as the app, so there is nothing to port-forward.
 - **PostgreSQL and Redis are measured too.** On EKS, a `postgres_exporter` sidecar and a `redis_exporter` sidecar publish database and cache metrics (connections, commits, rows, cache hits and misses, keys, memory) on a `metrics` port that the same ServiceMonitor scrapes.
-- **Alert rules ship with the chart.** A PrometheusRule (`railshack-alerts`) fires on a service down, more than 5% errors, slow responses, PostgreSQL or Redis down, a low cache hit ratio, pods pending, crash loops and autoscalers at their maximum.
-- **Four dashboards load by themselves**, in a Grafana folder called **RailShack**. Each file in [`helm/railshack/dashboards/`](helm/railshack/dashboards) becomes a ConfigMap labelled `grafana_dashboard: "1"`, and Grafana picks it up.
+- **Alert rules ship with the chart.** A PrometheusRule (`railway-apps-alerts`) fires on a service down, more than 5% errors, slow responses, PostgreSQL or Redis down, a low cache hit ratio, pods pending, crash loops and autoscalers at their maximum.
+- **Four dashboards load by themselves**, in a Grafana folder called **Railway-Apps**. Each file in [`helm/railway-apps/dashboards/`](helm/railway-apps/dashboards) becomes a ConfigMap labelled `grafana_dashboard: "1"`, and Grafana picks it up.
 
 | Dashboard | What it answers |
 |---|---|
@@ -204,7 +204,7 @@ eksctl create cluster -f cluster\eks-auto-mode.yaml
 
 That one file is all the cluster needs. EKS Auto Mode already runs the pieces we would otherwise install ourselves: Karpenter for nodes, the load balancer controller (so an Ingress becomes an ALB), and the EBS CSI driver (so a PersistentVolumeClaim becomes an EBS volume). eksctl also creates the VPC with the subnet tags the load balancer needs, and adds metrics-server for the HPAs.
 
-**Your domain in Route 53** (once). We use `prod-bat.site`: the app on `railshack.prod-bat.site`, Grafana on `grafana.railshack.prod-bat.site`. Create a hosted zone (about $0.50 a month), then enter its four name servers in the nameserver settings where you bought the domain. If the domain already has records there (email, a website), recreate them in the zone first. The switch usually takes 15–60 minutes.
+**Your domain in Route 53** (once). We use `prod-bat.site`: the app on `railway-apps.prod-bat.site`, Grafana on `grafana.railway-apps.prod-bat.site`. Create a hosted zone (about $0.50 a month), then enter its four name servers in the nameserver settings where you bought the domain. If the domain already has records there (email, a website), recreate them in the zone first. The switch usually takes 15–60 minutes.
 
 ```powershell
 aws route53 create-hosted-zone --name prod-bat.site --caller-reference (Get-Date -Format o)
@@ -217,7 +217,7 @@ Keeping DNS where you bought the domain works too: you then add ACM's validation
 
 ```powershell
 aws acm request-certificate --region ap-south-1 --validation-method DNS `
-  --domain-name railshack.prod-bat.site --subject-alternative-names grafana.railshack.prod-bat.site
+  --domain-name railway-apps.prod-bat.site --subject-alternative-names grafana.railway-apps.prod-bat.site
 ```
 
 Add the validation CNAME records that ACM shows (Route 53 has a one-click **Create records in Route 53** button; any other DNS provider works too). When the certificate says **Issued**, copy its ARN. No domain? Skip this: the app works on the ALB's own address, but Grafana then has no public URL.
@@ -236,8 +236,8 @@ Add the validation CNAME records that ACM shows (Route 53 has a one-click **Crea
 |---|---|---|
 | Secret | `AWS_ROLE_ARN` | the role ARN printed by step 2 |
 | Variable | `AWS_REGION` | `ap-south-1` |
-| Variable | `EKS_CLUSTER` | `railshack` |
-| Variable | `APP_DOMAIN` | your domain, e.g. `railshack.prod-bat.site` (optional) |
+| Variable | `EKS_CLUSTER` | `railway-apps` |
+| Variable | `APP_DOMAIN` | your domain, e.g. `railway-apps.prod-bat.site` (optional) |
 | Variable | `ACM_CERT_ARN` | the certificate ARN from step 1 (optional, turns on HTTPS) |
 | Variable | `REPLICAS` | optional: `1` runs one pod per service (52 pods), for a new AWS account with the 8-vCPU limit |
 | Secret | `GHCR_PULL_TOKEN` | a classic personal access token with only `read:packages` (lets the cluster pull the private images) |
@@ -253,27 +253,27 @@ Also create a GitHub environment called `production-eks` (Settings → Environme
 The app and Grafana share one ALB (one IngressClass group). Once the deploy is green and the ALB is `active`, this creates or updates both Route 53 alias records, reading the address from the Ingress:
 
 ```powershell
-$alb  = kubectl get ingress railshack -n railshack -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+$alb  = kubectl get ingress railway-apps -n railway-apps -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 $zone = (aws route53 list-hosted-zones-by-name --dns-name prod-bat.site --query "HostedZones[0].Id" --output text).Split("/")[-1]
 $albZone = aws elbv2 describe-load-balancers --region ap-south-1 `
   --query "LoadBalancers[?DNSName=='$alb'].CanonicalHostedZoneId" --output text
-$changes = @("railshack.prod-bat.site", "grafana.railshack.prod-bat.site") | ForEach-Object {
+$changes = @("railway-apps.prod-bat.site", "grafana.railway-apps.prod-bat.site") | ForEach-Object {
   @{ Action = "UPSERT"; ResourceRecordSet = @{ Name = $_; Type = "A"
      AliasTarget = @{ HostedZoneId = $albZone; DNSName = $alb; EvaluateTargetHealth = $false } } }
 }
-$f = Join-Path ([IO.Path]::GetTempPath()) "railshack-dns.json"
+$f = Join-Path ([IO.Path]::GetTempPath()) "railway-apps-dns.json"
 [IO.File]::WriteAllText($f, (@{ Changes = $changes } | ConvertTo-Json -Depth 6))
 aws route53 change-resource-record-sets --hosted-zone-id $zone --change-batch "file://$f"
 ```
 
 At another DNS provider, create two **CNAME** records to the same address instead. The address stays the same on later deploys; it changes only when the release is removed and reinstalled (`helm uninstall`, or a failed first deploy that `--atomic` rolls back), and then you run this again.
 
-If `Resolve-DnsName railshack.prod-bat.site` says the name does not exist but `Resolve-DnsName railshack.prod-bat.site -Server 8.8.8.8` works, your router cached an earlier answer: wait up to 15 minutes, or switch Windows to `8.8.8.8` and run `ipconfig /flushdns` (both as administrator).
+If `Resolve-DnsName railway-apps.prod-bat.site` says the name does not exist but `Resolve-DnsName railway-apps.prod-bat.site -Server 8.8.8.8` works, your router cached an earlier answer: wait up to 15 minutes, or switch Windows to `8.8.8.8` and run `ipconfig /flushdns` (both as administrator).
 
 **6. Open the app and Grafana:**
 
-- `https://railshack.prod-bat.site`: sign in with the demo account `devopsshack` / `devopsshack`, or create your own.
-- `https://grafana.railshack.prod-bat.site`: user `admin`, password from the command below. Open **Dashboards → RailShack → RailShack · Command Center**.
+- `https://railway-apps.prod-bat.site`: sign in with the demo account `devopsshack` / `devopsshack`, or create your own.
+- `https://grafana.railway-apps.prod-bat.site`: user `admin`, password from the command below. Open **Dashboards → Railway-Apps → Railway-Apps · Command Center**.
 
 ```powershell
 $b64 = kubectl get secret monitoring-grafana -n monitoring -o jsonpath='{.data.admin-password}'
@@ -283,7 +283,7 @@ $b64 = kubectl get secret monitoring-grafana -n monitoring -o jsonpath='{.data.a
 Run the end-to-end smoke test against your domain any time:
 
 ```powershell
-.\scripts\smoke-test.ps1 https://railshack.prod-bat.site
+.\scripts\smoke-test.ps1 https://railway-apps.prod-bat.site
 ```
 
 Prometheus stays private on purpose (it has no login). We query it from Grafana's **Explore** page.
@@ -291,9 +291,9 @@ Prometheus stays private on purpose (it has no login). We query it from Grafana'
 **Clean up** when you are done, so nothing keeps costing money:
 
 ```powershell
-helm uninstall railshack -n railshack
+helm uninstall railway-apps -n railway-apps
 helm uninstall monitoring -n monitoring
-kubectl delete pvc data-postgres-0 -n railshack        # deletes the database disk
+kubectl delete pvc data-postgres-0 -n railway-apps        # deletes the database disk
 eksctl delete cluster -f cluster\eks-auto-mode.yaml --disable-nodegroup-eviction
 ```
 
@@ -307,8 +307,8 @@ Then delete the two DNS records, so they don't point at a load balancer that no 
 One chart deploys all 50 services, PostgreSQL and Redis.
 
 ```powershell
-helm upgrade --install railshack helm\railshack -n railshack --create-namespace `
-  -f helm\railshack\values-eks.yaml `
+helm upgrade --install railway-apps helm\railway-apps -n railway-apps --create-namespace `
+  -f helm\railway-apps\values-eks.yaml `
   --set image.repository=your-github-user `
   --set image.tag=latest `
   --atomic --wait --timeout 15m
@@ -322,7 +322,7 @@ helm upgrade --install railshack helm\railshack -n railshack --create-namespace 
 
 ### How users reach the app
 
-Only `frontend` is exposed; the other 49 services stay internal and are reached through `api-gateway`. With `access.mode: alb-ingress`, the chart creates an Ingress and EKS Auto Mode builds an **Application Load Balancer** for it: nothing to install. Get the address with `kubectl get ingress railshack -n railshack`.
+Only `frontend` is exposed; the other 49 services stay internal and are reached through `api-gateway`. With `access.mode: alb-ingress`, the chart creates an Ingress and EKS Auto Mode builds an **Application Load Balancer** for it: nothing to install. Get the address with `kubectl get ingress railway-apps -n railway-apps`.
 
 Add a domain and HTTPS later without redesigning anything: set `access.host` and `access.alb.certificateArns` (an ACM certificate). We do not use the community ingress-nginx controller, which was retired in March 2026.
 
@@ -357,10 +357,10 @@ flowchart LR
 
 ```powershell
 kubectl apply -f cluster\nodepool-blackfriday.yaml
-helm upgrade --install railshack helm\railshack -n railshack `
-  -f helm\railshack\values-eks.yaml -f helm\railshack\values-blackfriday.yaml `
+helm upgrade --install railway-apps helm\railway-apps -n railway-apps `
+  -f helm\railway-apps\values-eks.yaml -f helm\railway-apps\values-blackfriday.yaml `
   --set image.repository=your-github-user
-kubectl create configmap k6-script -n railshack --from-file=loadtest\blackfriday.js
+kubectl create configmap k6-script -n railway-apps --from-file=loadtest\blackfriday.js
 kubectl apply -f loadtest\k6-job.yaml   # up to 4,000 virtual shoppers from 10 k6 pods
 ```
 
@@ -376,7 +376,7 @@ Watch it in Grafana: the HPAs add pods, the pods go Pending, and EKS Auto Mode a
 services/<name>/        code + Dockerfile for each of the 50 services
 libs/                   shared runtimes: gokit · nodekit · pykit · javakit
 services.json           the list of all 50 services
-helm/railshack/         Helm chart (50 services + PostgreSQL + Redis) + values for EKS and Black Friday
+helm/railway-apps/         Helm chart (50 services + PostgreSQL + Redis) + values for EKS and Black Friday
 .github/workflows/      ci.yml and cd.yml
 cluster/                EKS Auto Mode cluster, GitHub OIDC for AWS (PowerShell + bash), Black Friday NodePool, Prometheus + Grafana values
 loadtest/               k6 Black Friday load test + in-cluster Job

@@ -1,11 +1,11 @@
-// RailShack · 50 Microservices Project by DevOps Shack
+// Railway-Apps · 50 Microservices Project by DevOps Shack
 // Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 // SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 
-// frontend — serves the RailShack web app and forwards /api/* to the api-gateway.
+// frontend — serves the Railway-Apps web app and forwards /api/* to the api-gateway.
 const fs = require('fs');
 const path = require('path');
-const kit = require('railshack-kit');
+const kit = require('railway-apps-kit');
 const s = kit.service('frontend');
 
 const servicesFile = [process.env.SERVICES_FILE, path.join(__dirname, 'services.json'), path.join(__dirname, '../../services.json')]

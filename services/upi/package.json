@@ -1,8 +1,8 @@
 {
-  "name": "railshack-upi",
+  "name": "railway-apps-upi",
   "version": "1.0.0",
   "private": true,
-  "description": "RailShack upi microservice (DevOps Shack)",
+  "description": "Railway-Apps upi microservice (DevOps Shack)",
   "main": "index.js",
   "scripts": { "start": "node index.js" },
   "engines": { "node": ">=20" }

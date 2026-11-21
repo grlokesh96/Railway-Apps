@@ -1,9 +1,9 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 #
 # api-gateway — Go microservice. Build from the repo root:
-#   docker build -f services/api-gateway/Dockerfile -t railshack-api-gateway .
+#   docker build -f services/api-gateway/Dockerfile -t railway-apps-api-gateway .
 # Cross-compiles on the build machine, so amd64 and arm64 images build fast without emulation.
 FROM --platform=$BUILDPLATFORM golang:1.24-alpine AS build
 ARG TARGETOS TARGETARCH
@@ -14,15 +14,15 @@ WORKDIR /src/services/api-gateway
 RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -trimpath -ldflags="-s -w" -o /out/app .
 
 FROM gcr.io/distroless/static-debian12:nonroot
-LABEL org.opencontainers.image.title="railshack-api-gateway" \
-      org.opencontainers.image.description="RailShack api-gateway microservice · 50 Microservices Project by DevOps Shack" \
+LABEL org.opencontainers.image.title="railway-apps-api-gateway" \
+      org.opencontainers.image.description="Railway-Apps api-gateway microservice · 50 Microservices Project by DevOps Shack" \
       org.opencontainers.image.vendor="DevOps Shack" \
       org.opencontainers.image.authors="DevOps Shack <office@devopsshack.com>" \
       org.opencontainers.image.url="https://devopsshack.com" \
       org.opencontainers.image.source="https://github.com/jaiswaladi246/50-MicroServices-Project-By-DevOpsShack" \
       org.opencontainers.image.documentation="https://www.youtube.com/@devopsshack" \
       org.opencontainers.image.licenses="Apache-2.0" \
-      com.devopsshack.project="RailShack - 50 Microservices Project by DevOps Shack"
+      com.devopsshack.project="Railway-Apps - 50 Microservices Project by DevOps Shack"
 COPY NOTICE /NOTICE
 COPY --from=build /out/app /app
 USER nonroot:nonroot

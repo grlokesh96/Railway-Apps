@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 # End-to-end smoke test: health of all 50 services, sign up / sign in, then search → book → PNR → My Trips → cancel,
 # checking that booking, My Trips and cancelling refuse requests without a login.
-# Usage: scripts/smoke-test.sh <base-url>   e.g. https://railshack.prod-bat.site (CI passes the runner's address)
+# Usage: scripts/smoke-test.sh <base-url>   e.g. https://railway-apps.prod-bat.site (CI passes the runner's address)
 # On Windows use the PowerShell version: .\scripts\smoke-test.ps1 [base-url]
 set -euo pipefail
 BASE="${1:?usage: scripts/smoke-test.sh <base-url>}"
@@ -13,7 +13,7 @@ pass() { printf '  \033[32m✔\033[0m %s\n' "$1"; }
 fail() { printf '  \033[31m✘\033[0m %s\n' "$1"; exit 1; }
 j() { python3 -c "import json,sys;d=json.load(sys.stdin);print($1)"; }
 
-echo "RailShack smoke test → $BASE"
+echo "Railway-Apps smoke test → $BASE"
 UP=$(curl -sf "$BASE/api/platform/status" | j "d['up']") || fail "platform status unreachable"
 [ "$UP" = "50" ] && pass "all 50 microservices healthy" || fail "only $UP/50 services healthy"
 
@@ -62,5 +62,5 @@ pass "cancelled with refund ₹$REFUND"
 
 curl -sf "$BASE/api/live-status/12301" >/dev/null && pass "live train status" || fail "live status"
 curl -sf "$BASE/api/admin/dashboard" >/dev/null && pass "ops dashboard" || fail "admin dashboard"
-curl -sf "$BASE/" -o /tmp/rs_index.html && grep -q "RailShack" /tmp/rs_index.html && pass "web UI served" || fail "web UI"
+curl -sf "$BASE/" -o /tmp/rs_index.html && grep -q "Railway-Apps" /tmp/rs_index.html && pass "web UI served" || fail "web UI"
 echo "🎉 smoke test passed"

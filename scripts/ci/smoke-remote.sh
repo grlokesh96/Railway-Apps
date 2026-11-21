@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 # Finds the public address of the release (the ALB Ingress on EKS, or a LoadBalancer Service),
@@ -9,14 +9,14 @@
 # straight to the new ALB (curl --connect-to). So it tests the real certificate and host rules even
 # before the DNS record points at the load balancer.
 set -euo pipefail
-NS="${1:-railshack}"
+NS="${1:-railway-apps}"
 DOMAIN="${APP_DOMAIN:-}"
 SCHEME=http; PORT=80
 [ -n "$DOMAIN" ] && [ -n "${ACM_CERT_ARN:-}" ] && { SCHEME=https; PORT=443; }
 
 address() {
-  if kubectl get ingress railshack -n "$NS" >/dev/null 2>&1; then
-    kubectl get ingress railshack -n "$NS" -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+  if kubectl get ingress railway-apps -n "$NS" >/dev/null 2>&1; then
+    kubectl get ingress railway-apps -n "$NS" -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
   else
     kubectl get svc frontend -n "$NS" -o jsonpath='{.status.loadBalancer.ingress[0].hostname}{.status.loadBalancer.ingress[0].ip}'
   fi
@@ -44,7 +44,7 @@ if [ -n "$DOMAIN" ]; then
   else
     echo "::warning::DNS: $DOMAIN does not resolve yet. Create a record for $DOMAIN and grafana.$DOMAIN pointing to $ADDR"
   fi
-  if kubectl get ingress railshack-grafana -n monitoring >/dev/null 2>&1; then
+  if kubectl get ingress railway-apps-grafana -n monitoring >/dev/null 2>&1; then
     for i in $(seq 1 30); do probe "grafana.$DOMAIN" /api/health && break; echo "waiting for Grafana ($i/30)..."; sleep 10; done
     probe "grafana.$DOMAIN" /api/health && echo "📊 Grafana is live at $SCHEME://grafana.$DOMAIN" || { echo "Grafana is not reachable through the ALB"; exit 1; }
     echo "### 📊 Grafana → $SCHEME://grafana.$DOMAIN" >> "${GITHUB_STEP_SUMMARY:-/dev/null}"
@@ -52,6 +52,6 @@ if [ -n "$DOMAIN" ]; then
 else
   URL="http://$ADDR"
 fi
-echo "🌐 RailShack is live at $URL   (load balancer: $ADDR)"
-echo "### 🚆 RailShack deployed → $URL" >> "${GITHUB_STEP_SUMMARY:-/dev/null}"
+echo "🌐 Railway-Apps is live at $URL   (load balancer: $ADDR)"
+echo "### 🚆 Railway-Apps deployed → $URL" >> "${GITHUB_STEP_SUMMARY:-/dev/null}"
 "$(dirname "$0")/../smoke-test.sh" "$URL"

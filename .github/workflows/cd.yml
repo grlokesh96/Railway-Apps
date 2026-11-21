@@ -1,7 +1,7 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
-# CD — deploy RailShack to AWS EKS with Helm, together with Prometheus + Grafana for its metrics.
+# CD — deploy Railway-Apps to AWS EKS with Helm, together with Prometheus + Grafana for its metrics.
 #
 # Runs automatically when CI succeeds on main, or manually from the Actions tab.
 # Logs in to AWS with OIDC — no long-lived AWS keys are stored in GitHub.
@@ -34,7 +34,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  NAMESPACE: railshack
+  NAMESPACE: railway-apps
 
 jobs:
   deploy-eks:
@@ -90,8 +90,8 @@ jobs:
             --dry-run=client -o yaml | kubectl apply -f -
       - name: Helm upgrade (rolls back automatically on failure)
         env:
-          EXTRA: ${{ inputs.blackfriday && '-f helm/railshack/values-blackfriday.yaml' || '' }}
-          APP_DOMAIN: ${{ vars.APP_DOMAIN }}       # e.g. railshack.prod-bat.site (empty = the ALB's own address)
+          EXTRA: ${{ inputs.blackfriday && '-f helm/railway-apps/values-blackfriday.yaml' || '' }}
+          APP_DOMAIN: ${{ vars.APP_DOMAIN }}       # e.g. railway-apps.prod-bat.site (empty = the ALB's own address)
           ACM_CERT_ARN: ${{ vars.ACM_CERT_ARN }}   # ACM certificate for APP_DOMAIN and grafana.APP_DOMAIN (empty = HTTP only)
           PULL_SECRET: ${{ secrets.GHCR_PULL_TOKEN != '' && 'ghcr-pull' || '' }}
           REPLICAS: ${{ vars.REPLICAS }}           # optional: 1 = one pod per service (fits a new account's 8-vCPU limit)
@@ -103,8 +103,8 @@ jobs:
           [ -n "$PULL_SECRET" ] && DOMAIN+=(--set "imagePullSecrets[0].name=$PULL_SECRET")
           [ -n "$APP_DOMAIN" ] && DOMAIN+=(--set access.host="$APP_DOMAIN")
           [ -n "$ACM_CERT_ARN" ] && DOMAIN+=(--set-json "access.alb.certificateArns=[\"$ACM_CERT_ARN\"]")
-          helm upgrade --install railshack helm/railshack -n "$NAMESPACE" --create-namespace \
-            -f helm/railshack/values-eks.yaml $EXTRA "${DOMAIN[@]}" \
+          helm upgrade --install railway-apps helm/railway-apps -n "$NAMESPACE" --create-namespace \
+            -f helm/railway-apps/values-eks.yaml $EXTRA "${DOMAIN[@]}" \
             --set image.repository="${GITHUB_REPOSITORY_OWNER,,}" \
             --set image.tag="${{ steps.v.outputs.tag }}" \
             --atomic --wait --timeout 15m

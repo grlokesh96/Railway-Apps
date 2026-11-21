@@ -1,20 +1,20 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
-# RailShack Helm chart values.
+# Railway-Apps Helm chart values.
 # Every one of the 50 microservices is listed under `services`. Anything not set on a
 # service falls back to the defaults for its language (see `languageDefaults`).
 
 image:
   registry: ghcr.io
-  # Your GitHub user or org, in lowercase. Images are <registry>/<repository>/railshack-<service>:<tag>
+  # Your GitHub user or org, in lowercase. Images are <registry>/<repository>/railway-apps-<service>:<tag>
   repository: your-github-user
   tag: latest
   pullPolicy: IfNotPresent
 
 # Private GHCR packages: CD creates the Secret "ghcr-pull" from the repository secret GHCR_PULL_TOKEN
 # (a classic PAT with only read:packages) and sets this list for us. By hand:
-#   kubectl create secret docker-registry ghcr-pull -n railshack --docker-server=ghcr.io \
+#   kubectl create secret docker-registry ghcr-pull -n railway-apps --docker-server=ghcr.io \
 #     --docker-username=<github-user> --docker-password=<PAT with read:packages>
 imagePullSecrets: []
 #  - name: ghcr-pull
@@ -59,7 +59,7 @@ languageDefaults:
 #   none         → internal only; use kubectl port-forward
 access:
   mode: none
-  host: ""                    # our domain, e.g. railshack.prod-bat.site (empty = use the ALB's own address). CD sets it from the APP_DOMAIN variable
+  host: ""                    # our domain, e.g. railway-apps.prod-bat.site (empty = use the ALB's own address). CD sets it from the APP_DOMAIN variable
   alb:
     scheme: internet-facing
     certificateArns: []       # ACM certificate ARN(s) for HTTPS, same region as the cluster. CD sets it from the ACM_CERT_ARN variable
@@ -83,9 +83,9 @@ auth:
 postgres:                   # the source of truth: accounts, bookings, My Trips
   enabled: true
   image: postgres:16-alpine
-  database: railshack
-  user: railshack
-  password: ""              # empty = generate one on first install and keep it (Secret railshack-postgres)
+  database: railway-apps
+  user: railway-apps
+  password: ""              # empty = generate one on first install and keep it (Secret railway-apps-postgres)
   maxConnections: 200
   storage:
     size: 10Gi
@@ -111,11 +111,11 @@ serviceMonitor:            # Prometheus scrapes /metrics on every service (needs
   enabled: false
   interval: 15s
 
-grafanaDashboard:          # the four RailShack dashboards (helm/railshack/dashboards/*.json), loaded by Grafana automatically
+grafanaDashboard:          # the four Railway-Apps dashboards (helm/railway-apps/dashboards/*.json), loaded by Grafana automatically
   enabled: false
-  folder: RailShack         # the Grafana folder they appear in
+  folder: Railway-Apps         # the Grafana folder they appear in
 
-prometheusRules:           # RailShack alert rules for Prometheus (service down, errors, latency, database, cache, pods)
+prometheusRules:           # Railway-Apps alert rules for Prometheus (service down, errors, latency, database, cache, pods)
   enabled: false
 
 services:

@@ -1,4 +1,4 @@
-// RailShack · 50 Microservices Project by DevOps Shack
+// Railway-Apps · 50 Microservices Project by DevOps Shack
 // Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 // SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 
@@ -167,7 +167,7 @@ func parseError(body []byte) *PGError {
 func (c *pgConn) startup(p *PG) error {
 	var b []byte
 	b = binary.BigEndian.AppendUint32(b, 196608) // protocol 3.0
-	for _, kv := range [][2]string{{"user", p.user}, {"database", p.database}, {"application_name", "railshack"}, {"client_encoding", "UTF8"}} {
+	for _, kv := range [][2]string{{"user", p.user}, {"database", p.database}, {"application_name", "railway-apps"}, {"client_encoding", "UTF8"}} {
 		b = append(b, cstr(kv[0])...)
 		b = append(b, cstr(kv[1])...)
 	}

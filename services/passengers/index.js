@@ -1,9 +1,9 @@
-// RailShack · 50 Microservices Project by DevOps Shack
+// Railway-Apps · 50 Microservices Project by DevOps Shack
 // Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 // SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 
 // passengers — validates traveller details and applies Indian Railways rules (age, berth preference, concessions).
-const kit = require('railshack-kit');
+const kit = require('railway-apps-kit');
 const s = kit.service('passengers');
 s.post('/api/passengers/validate', (c) => {
   const list = (c.body && c.body.passengers) || [];

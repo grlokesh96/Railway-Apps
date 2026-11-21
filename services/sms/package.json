@@ -1,8 +1,8 @@
 {
-  "name": "railshack-sms",
+  "name": "railway-apps-sms",
   "version": "1.0.0",
   "private": true,
-  "description": "RailShack sms microservice (DevOps Shack)",
+  "description": "Railway-Apps sms microservice (DevOps Shack)",
   "main": "index.js",
   "scripts": { "start": "node index.js" },
   "engines": { "node": ">=20" }

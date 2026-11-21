@@ -1,4 +1,4 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 # Tells Prometheus (kube-prometheus-stack) to scrape /metrics on all 50 services,
@@ -7,13 +7,13 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: railshack
+  name: railway-apps
   labels:
-    app.kubernetes.io/part-of: railshack
+    app.kubernetes.io/part-of: railway-apps
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/part-of: railshack
+      app.kubernetes.io/part-of: railway-apps
       app.kubernetes.io/instance: {{ .Release.Name }}
   jobLabel: app.kubernetes.io/name      # job = the service name
   endpoints:

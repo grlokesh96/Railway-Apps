@@ -1,9 +1,9 @@
-// RailShack · 50 Microservices Project by DevOps Shack
+// Railway-Apps · 50 Microservices Project by DevOps Shack
 // Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 // SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 
 // tourism — curated rail holiday packages by destination.
-const kit = require('railshack-kit');
+const kit = require('railway-apps-kit');
 const s = kit.service('tourism');
 const packages = [
   { id: 'T1', title: 'Kashi Vishwanath & Ganga Aarti', city: 'Varanasi', station: 'BSB', nights: 2, price: 7499 },

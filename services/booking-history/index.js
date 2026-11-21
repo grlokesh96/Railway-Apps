@@ -1,4 +1,4 @@
-// RailShack · 50 Microservices Project by DevOps Shack
+// Railway-Apps · 50 Microservices Project by DevOps Shack
 // Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 // SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 
@@ -6,7 +6,7 @@
 // PostgreSQL (table trips) is the source of truth; Redis keeps a 5-minute copy of each user's list
 // (cache-aside). A new trip is written to PostgreSQL first, then the user's cached list is deleted.
 // Without DATABASE_URL (local runs) trips are kept in memory.
-const kit = require('railshack-kit');
+const kit = require('railway-apps-kit');
 const s = kit.service('booking-history');
 const db = kit.pg(process.env.DATABASE_URL);
 const cache = kit.redis(process.env.REDIS_ADDR);

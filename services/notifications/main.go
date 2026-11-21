@@ -1,4 +1,4 @@
-// RailShack · 50 Microservices Project by DevOps Shack
+// Railway-Apps · 50 Microservices Project by DevOps Shack
 // Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 // SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 
@@ -8,7 +8,7 @@ package main
 import (
 	"fmt"
 
-	"railshack/gokit"
+	"railway-apps/gokit"
 )
 
 func main() {
@@ -31,7 +31,7 @@ func main() {
 		}
 		subject := map[string]string{"booked": "Your ticket is confirmed", "cancelled": "Your ticket is cancelled"}[in.Template]
 		if subject == "" {
-			subject = "RailShack update"
+			subject = "Railway-Apps update"
 		}
 		sent := []string{}
 		for _, ch := range prefs.Channels {

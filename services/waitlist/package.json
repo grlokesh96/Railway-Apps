@@ -1,8 +1,8 @@
 {
-  "name": "railshack-waitlist",
+  "name": "railway-apps-waitlist",
   "version": "1.0.0",
   "private": true,
-  "description": "RailShack waitlist microservice (DevOps Shack)",
+  "description": "Railway-Apps waitlist microservice (DevOps Shack)",
   "main": "index.js",
   "scripts": { "start": "node index.js" },
   "engines": { "node": ">=20" }

@@ -1,19 +1,13 @@
-# Railway-Apps · 50 Microservices Project by DevOps Shack
-# Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
+# Railway-Apps booking microservice
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 #
 # platform-info — Node.js microservice (zero npm dependencies). Build from the repo root:
 #   docker build -f services/platform-info/Dockerfile -t railway-apps-platform-info .
 FROM node:22-alpine
 LABEL org.opencontainers.image.title="railway-apps-platform-info" \
-      org.opencontainers.image.description="Railway-Apps platform-info microservice · 50 Microservices Project by DevOps Shack" \
-      org.opencontainers.image.vendor="DevOps Shack" \
-      org.opencontainers.image.authors="DevOps Shack <office@devopsshack.com>" \
-      org.opencontainers.image.url="https://devopsshack.com" \
-      org.opencontainers.image.source="https://github.com/jaiswaladi246/50-MicroServices-Project-By-DevOpsShack" \
-      org.opencontainers.image.documentation="https://www.youtube.com/@devopsshack" \
+      org.opencontainers.image.description="Railway-Apps platform-info microservice" \
       org.opencontainers.image.licenses="Apache-2.0" \
-      com.devopsshack.project="Railway-Apps - 50 Microservices Project by DevOps Shack"
+      org.opencontainers.image.source="https://github.com/grlokesh96/Railway-Apps"
 WORKDIR /app
 ENV NODE_ENV=production NODE_PATH=/app/lib
 COPY NOTICE ./NOTICE

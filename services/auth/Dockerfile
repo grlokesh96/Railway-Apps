@@ -1,5 +1,4 @@
-# Railway-Apps · 50 Microservices Project by DevOps Shack
-# Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
+# Railway-Apps booking microservice
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 #
 # auth — Go microservice. Build from the repo root:
@@ -15,11 +14,9 @@ RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -trimpath -ldflags=
 
 FROM gcr.io/distroless/static-debian12:nonroot
 LABEL org.opencontainers.image.title="railway-apps-auth" \
-      org.opencontainers.image.description="Railway-Apps auth microservice · 50 Microservices Project by DevOps Shack" \
-      org.opencontainers.image.vendor="DevOps Shack" \
-      org.opencontainers.image.authors="DevOps Shack <office@devopsshack.com>" \
+      org.opencontainers.image.description="Railway-Apps auth microservice" \
       org.opencontainers.image.licenses="Apache-2.0" \
-      com.devopsshack.project="Railway-Apps - 50 Microservices Project by DevOps Shack"
+      org.opencontainers.image.source="https://github.com/grlokesh96/Railway-Apps"
 COPY NOTICE /NOTICE
 COPY --from=build /out/app /app
 USER nonroot:nonroot

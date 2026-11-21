@@ -15,11 +15,6 @@
 
 <h3 align="center">An IRCTC-style train booking platform, built on 50 microservices, deployed to AWS EKS with one Helm chart and shipped by GitHub Actions.</h3>
 
-<p align="center">
-  <b>Created by <a href="https://devopsshack.com">DevOps Shack</a></b> · Watch the full build and deployment on
-  <a href="https://www.youtube.com/@devopsshack"><b>YouTube ▶</b></a>
-</p>
-
 ---
 
 ## 📸 See it in action

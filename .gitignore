@@ -1,6 +1,8 @@
 .run/
 node_modules/
 *.class
+__pycache__/
+*.py[cod]
 
 # Interactive architecture page is kept private (only the static PNGs are published)
 docs/architecture/*.html

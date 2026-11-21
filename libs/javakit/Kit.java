@@ -1,4 +1,4 @@
-// RailShack · 50 Microservices Project by DevOps Shack
+// Railway-Apps · 50 Microservices Project by DevOps Shack
 // Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 // SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 
@@ -22,16 +22,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Kit — shared runtime for every RailShack Java microservice. JDK only, no
+ * Kit — shared runtime for every Railway-Apps Java microservice. JDK only, no
  * frameworks: health and readiness probes, Prometheus metrics, JSON logs, a
  * tiny JSON encoder/decoder and the X-Trace header the UI animates.
  */
 public class Kit {
-    public static final String BRAND = "RailShack by DevOps Shack";
+    public static final String BRAND = "Railway-Apps by DevOps Shack";
     public static final String WEBSITE = "https://devopsshack.com";
     public static final String YOUTUBE = "https://www.youtube.com/@devopsshack";
     public static final String SOURCE = "https://github.com/jaiswaladi246/50-MicroServices-Project-By-DevOpsShack";
-    public static final String POWERED_BY = "RailShack by DevOps Shack (devopsshack.com)";
+    public static final String POWERED_BY = "Railway-Apps by DevOps Shack (devopsshack.com)";
     public final String name;
     private final List<Object[]> routes = new ArrayList<>();
     private final Map<String, AtomicLong> reqs = new ConcurrentHashMap<>();
@@ -138,18 +138,18 @@ public class Kit {
     }
 
     private String metrics() {
-        StringBuilder sb = new StringBuilder("# TYPE railshack_http_requests_total counter\n");
+        StringBuilder sb = new StringBuilder("# TYPE railway-apps_http_requests_total counter\n");
         new TreeMap<>(reqs).forEach((k, v) -> {
             String[] p = k.split("\\|");
-            sb.append(String.format("railshack_http_requests_total{service=\"%s\",method=\"%s\",code=\"%s\"} %d%n", name, p[0], p[1], v.get()));
+            sb.append(String.format("railway-apps_http_requests_total{service=\"%s\",method=\"%s\",code=\"%s\"} %d%n", name, p[0], p[1], v.get()));
         });
-        sb.append("# TYPE railshack_http_request_duration_seconds summary\n");
+        sb.append("# TYPE railway-apps_http_request_duration_seconds summary\n");
         synchronized (this) {
-            sb.append(String.format("railshack_http_request_duration_seconds_sum{service=\"%s\"} %.6f%n", name, durSum));
-            sb.append(String.format("railshack_http_request_duration_seconds_count{service=\"%s\"} %d%n", name, durCount));
+            sb.append(String.format("railway-apps_http_request_duration_seconds_sum{service=\"%s\"} %.6f%n", name, durSum));
+            sb.append(String.format("railway-apps_http_request_duration_seconds_count{service=\"%s\"} %d%n", name, durCount));
         }
-        sb.append(String.format("railshack_up{service=\"%s\",language=\"java\"} 1%n", name));
-        sb.append(String.format("railshack_build_info{service=\"%s\",version=\"%s\",project=\"%s\",source=\"%s\"} 1%n", name, env("SERVICE_VERSION", "1.0.0"), BRAND, SOURCE));
+        sb.append(String.format("railway-apps_up{service=\"%s\",language=\"java\"} 1%n", name));
+        sb.append(String.format("railway-apps_build_info{service=\"%s\",version=\"%s\",project=\"%s\",source=\"%s\"} 1%n", name, env("SERVICE_VERSION", "1.0.0"), BRAND, SOURCE));
         return sb.toString();
     }
 

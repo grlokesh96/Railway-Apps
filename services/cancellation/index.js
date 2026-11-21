@@ -1,10 +1,10 @@
-// RailShack · 50 Microservices Project by DevOps Shack
+// Railway-Apps · 50 Microservices Project by DevOps Shack
 // Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 // SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 
 // cancellation — works out cancellation charges, triggers the refund, frees the seat
 // for the waitlist and tells the passenger. Only the person who booked the ticket may cancel it.
-const kit = require('railshack-kit');
+const kit = require('railway-apps-kit');
 const s = kit.service('cancellation');
 const flat = { '1A': 240, '2A': 200, '3A': 180, CC: 180, EC: 240, SL: 120, '2S': 60 };
 s.post('/api/cancellation/cancel', async (c) => {

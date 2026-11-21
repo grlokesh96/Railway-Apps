@@ -1,8 +1,8 @@
-// RailShack · 50 Microservices Project by DevOps Shack
+// Railway-Apps · 50 Microservices Project by DevOps Shack
 // Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 // SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 
-// railshack-kit — the shared runtime for every RailShack Node.js microservice.
+// railway-apps-kit — the shared runtime for every Railway-Apps Node.js microservice.
 // Zero dependencies: only Node's built-in modules. Gives each service health
 // and readiness probes, Prometheus metrics, JSON logs, request-id propagation,
 // service discovery, downstream calls and the X-Trace header the UI animates.
@@ -13,9 +13,9 @@ const path = require('path');
 const os = require('os');
 const crypto = require('crypto');
 
-const BRAND = { project: 'RailShack by DevOps Shack', website: 'https://devopsshack.com',
+const BRAND = { project: 'Railway-Apps by DevOps Shack', website: 'https://devopsshack.com',
   youtube: 'https://www.youtube.com/@devopsshack', source: 'https://github.com/jaiswaladi246/50-MicroServices-Project-By-DevOpsShack', license: 'Apache-2.0' };
-const POWERED_BY = 'RailShack by DevOps Shack (devopsshack.com)';
+const POWERED_BY = 'Railway-Apps by DevOps Shack (devopsshack.com)';
 const env = (k, d) => (process.env[k] !== undefined && process.env[k] !== '' ? process.env[k] : d);
 let ports = null;
 if (process.env.PORTS_FILE) {
@@ -122,16 +122,16 @@ function service(name) {
   }
 
   function promText() {
-    let out = '# TYPE railshack_http_requests_total counter\n';
+    let out = '# TYPE railway-apps_http_requests_total counter\n';
     for (const [k, v] of Object.entries(metrics.reqs).sort()) {
       const [m, code] = k.split('|');
-      out += `railshack_http_requests_total{service="${name}",method="${m}",code="${code}"} ${v}\n`;
+      out += `railway-apps_http_requests_total{service="${name}",method="${m}",code="${code}"} ${v}\n`;
     }
-    out += '# TYPE railshack_http_request_duration_seconds summary\n';
-    out += `railshack_http_request_duration_seconds_sum{service="${name}"} ${metrics.durSum.toFixed(6)}\n`;
-    out += `railshack_http_request_duration_seconds_count{service="${name}"} ${metrics.durCount}\n`;
-    out += `railshack_up{service="${name}",language="node"} 1\n`;
-    out += `railshack_build_info{service="${name}",version="${env('SERVICE_VERSION', '1.0.0')}",project="${BRAND.project}",source="${BRAND.source}"} 1\n`;
+    out += '# TYPE railway-apps_http_request_duration_seconds summary\n';
+    out += `railway-apps_http_request_duration_seconds_sum{service="${name}"} ${metrics.durSum.toFixed(6)}\n`;
+    out += `railway-apps_http_request_duration_seconds_count{service="${name}"} ${metrics.durCount}\n`;
+    out += `railway-apps_up{service="${name}",language="node"} 1\n`;
+    out += `railway-apps_build_info{service="${name}",version="${env('SERVICE_VERSION', '1.0.0')}",project="${BRAND.project}",source="${BRAND.source}"} 1\n`;
     return out;
   }
 

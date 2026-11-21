@@ -1,4 +1,4 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 #
@@ -11,9 +11,9 @@ param(
     [Parameter(Mandatory = $true)][string]$GitHubRepo,
     [string]$OwnerId = "",       # GitHub's numeric owner ID; looked up automatically when empty
     [string]$RepoId = "",        # GitHub's numeric repository ID; looked up automatically when empty
-    [string]$Cluster = "railshack",
+    [string]$Cluster = "railway-apps",
     [string]$Region = "ap-south-1",
-    [string]$Role = "railshack-github-deployer"
+    [string]$Role = "railway-apps-github-deployer"
 )
 $ErrorActionPreference = "Continue"   # we check every aws call's exit code ourselves
 
@@ -45,7 +45,7 @@ function GitHub-Id([string]$path) {
         $id = (& gh api $path --jq .id 2>$null | Out-String).Trim()
         if ($LASTEXITCODE -eq 0 -and $id -match '^\d+$') { return $id }
     }
-    try { return [string](Invoke-RestMethod "https://api.github.com/$path" -Headers @{ "User-Agent" = "railshack" }).id } catch { return "" }
+    try { return [string](Invoke-RestMethod "https://api.github.com/$path" -Headers @{ "User-Agent" = "railway-apps" }).id } catch { return "" }
 }
 if (-not $OwnerId) { $OwnerId = GitHub-Id "users/$owner" }
 if (-not $OwnerId) { throw "Could not reach api.github.com to look up the ID of '$owner'. Check the internet connection and the -GitHubRepo spelling." }
@@ -70,8 +70,8 @@ $trust = [ordered]@{
     })
 } | ConvertTo-Json -Depth 10
 $policy = '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Action":["eks:DescribeCluster"],"Resource":"*"}]}'
-$trustFile = Join-Path $tmp "railshack-trust.json"
-$policyFile = Join-Path $tmp "railshack-policy.json"
+$trustFile = Join-Path $tmp "railway-apps-trust.json"
+$policyFile = Join-Path $tmp "railway-apps-policy.json"
 [IO.File]::WriteAllText($trustFile, $trust)      # UTF-8 without BOM, which the AWS CLI expects
 [IO.File]::WriteAllText($policyFile, $policy)
 

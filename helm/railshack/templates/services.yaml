@@ -1,4 +1,4 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 {{- range $name, $svc := .Values.services }}
@@ -8,7 +8,7 @@ kind: Service
 metadata:
   name: {{ $name }}
   labels:
-    {{- include "railshack.labels" (dict "name" $name "lang" $svc.lang "root" $) | nindent 4 }}
+    {{- include "railway-apps.labels" (dict "name" $name "lang" $svc.lang "root" $) | nindent 4 }}
   {{- if and (eq $name "frontend") $.Values.frontend.service.annotations }}
   annotations:
     {{- toYaml $.Values.frontend.service.annotations | nindent 4 }}
@@ -30,5 +30,5 @@ spec:
     - { name: http, port: 8080, targetPort: http }
   {{- end }}
   selector:
-    {{- include "railshack.selector" (dict "name" $name "root" $) | nindent 4 }}
+    {{- include "railway-apps.selector" (dict "name" $name "root" $) | nindent 4 }}
 {{- end }}

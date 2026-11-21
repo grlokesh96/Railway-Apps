@@ -1,17 +1,17 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 # PostgreSQL — the source of truth for accounts (auth), bookings (pnr) and My Trips (booking-history).
 # One StatefulSet pod with its own persistent disk, so data survives pod restarts and redeploys.
-# The password is generated once and kept in the railshack-postgres Secret across upgrades.
+# The password is generated once and kept in the railway-apps-postgres Secret across upgrades.
 {{- if .Values.postgres.enabled }}
-{{- $existing := lookup "v1" "Secret" .Release.Namespace "railshack-postgres" }}
+{{- $existing := lookup "v1" "Secret" .Release.Namespace "railway-apps-postgres" }}
 apiVersion: v1
 kind: Secret
 metadata:
-  name: railshack-postgres
+  name: railway-apps-postgres
   labels:
-    {{- include "railshack.labels" (dict "name" "postgres" "lang" "infra" "root" $) | nindent 4 }}
+    {{- include "railway-apps.labels" (dict "name" "postgres" "lang" "infra" "root" $) | nindent 4 }}
   annotations:
     helm.sh/resource-policy: keep
 type: Opaque
@@ -29,17 +29,17 @@ kind: StatefulSet
 metadata:
   name: postgres
   labels:
-    {{- include "railshack.labels" (dict "name" "postgres" "lang" "infra" "root" $) | nindent 4 }}
+    {{- include "railway-apps.labels" (dict "name" "postgres" "lang" "infra" "root" $) | nindent 4 }}
 spec:
   serviceName: postgres
   replicas: 1
   selector:
     matchLabels:
-      {{- include "railshack.selector" (dict "name" "postgres" "root" $) | nindent 6 }}
+      {{- include "railway-apps.selector" (dict "name" "postgres" "root" $) | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "railshack.labels" (dict "name" "postgres" "lang" "infra" "root" $) | nindent 8 }}
+        {{- include "railway-apps.labels" (dict "name" "postgres" "lang" "infra" "root" $) | nindent 8 }}
     spec:
       automountServiceAccountToken: false
       terminationGracePeriodSeconds: 30
@@ -52,7 +52,7 @@ spec:
           env:
             - { name: POSTGRES_DB, value: {{ .Values.postgres.database | quote }} }
             - { name: POSTGRES_USER, value: {{ .Values.postgres.user | quote }} }
-            - { name: POSTGRES_PASSWORD, valueFrom: { secretKeyRef: { name: railshack-postgres, key: POSTGRES_PASSWORD } } }
+            - { name: POSTGRES_PASSWORD, valueFrom: { secretKeyRef: { name: railway-apps-postgres, key: POSTGRES_PASSWORD } } }
             - { name: PGDATA, value: /var/lib/postgresql/data/pgdata }
           readinessProbe:
             exec: { command: ["pg_isready", "-h", "127.0.0.1", "-U", {{ .Values.postgres.user | quote }}, "-d", {{ .Values.postgres.database | quote }}] }
@@ -75,7 +75,7 @@ spec:
           image: {{ .Values.postgres.metrics.image }}
           ports: [{ name: metrics, containerPort: 9187 }]
           env:
-            - { name: PGPASSWORD, valueFrom: { secretKeyRef: { name: railshack-postgres, key: POSTGRES_PASSWORD } } }
+            - { name: PGPASSWORD, valueFrom: { secretKeyRef: { name: railway-apps-postgres, key: POSTGRES_PASSWORD } } }
             - { name: DATA_SOURCE_NAME, value: "postgresql://{{ .Values.postgres.user }}:$(PGPASSWORD)@127.0.0.1:5432/{{ .Values.postgres.database }}?sslmode=disable" }
           readinessProbe: { httpGet: { path: /metrics, port: metrics }, periodSeconds: 15, timeoutSeconds: 5 }
           resources:
@@ -89,7 +89,7 @@ spec:
     - metadata:
         name: data
         labels:
-          {{- include "railshack.selector" (dict "name" "postgres" "root" $) | nindent 10 }}
+          {{- include "railway-apps.selector" (dict "name" "postgres" "root" $) | nindent 10 }}
       spec:
         accessModes: ["ReadWriteOnce"]
         {{- with .Values.postgres.storage.className }}
@@ -104,7 +104,7 @@ kind: Service
 metadata:
   name: postgres
   labels:
-    {{- include "railshack.labels" (dict "name" "postgres" "lang" "infra" "root" $) | nindent 4 }}
+    {{- include "railway-apps.labels" (dict "name" "postgres" "lang" "infra" "root" $) | nindent 4 }}
 spec:
   ports:
     - { name: postgres, port: 5432, targetPort: postgres }
@@ -112,5 +112,5 @@ spec:
     - { name: metrics, port: 9187, targetPort: metrics }
     {{- end }}
   selector:
-    {{- include "railshack.selector" (dict "name" "postgres" "root" $) | nindent 4 }}
+    {{- include "railway-apps.selector" (dict "name" "postgres" "root" $) | nindent 4 }}
 {{- end }}

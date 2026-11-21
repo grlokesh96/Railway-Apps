@@ -1,8 +1,8 @@
 {
-  "name": "railshack-admin",
+  "name": "railway-apps-admin",
   "version": "1.0.0",
   "private": true,
-  "description": "RailShack admin microservice (DevOps Shack)",
+  "description": "Railway-Apps admin microservice (DevOps Shack)",
   "main": "index.js",
   "scripts": { "start": "node index.js" },
   "engines": { "node": ">=20" }

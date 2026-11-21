@@ -1,22 +1,22 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 #
-# Prometheus + Grafana for RailShack, using the community kube-prometheus-stack chart.
+# Prometheus + Grafana for Railway-Apps, using the community kube-prometheus-stack chart.
 # CD installs it before the app (namespace "monitoring", release "monitoring"):
 #   helm upgrade --install monitoring prometheus-community/kube-prometheus-stack --version 93.4.0 \
 #     -n monitoring --create-namespace -f cluster/monitoring-values.yaml --wait
 #
-# Open Grafana: https://grafana.<APP_DOMAIN>  (user: admin). The RailShack chart adds that Ingress, so Grafana
+# Open Grafana: https://grafana.<APP_DOMAIN>  (user: admin). The Railway-Apps chart adds that Ingress, so Grafana
 # shares the app's Application Load Balancer and HTTPS certificate. The password:
 #   PowerShell:  $b64 = kubectl get secret monitoring-grafana -n monitoring -o jsonpath='{.data.admin-password}'
 #                [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($b64))
 # Prometheus stays private on purpose (it has no login); we query it from Grafana (Explore).
-# The four RailShack dashboards (folder "RailShack") and the alert rules are loaded automatically from the app's Helm chart.
+# The four Railway-Apps dashboards (folder "Railway-Apps") and the alert rules are loaded automatically from the app's Helm chart.
 
 prometheus:
   prometheusSpec:
-    # Pick up ServiceMonitors from every namespace and every release (ours lives in "railshack").
+    # Pick up ServiceMonitors from every namespace and every release (ours lives in "railway-apps").
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
     ruleSelectorNilUsesHelmValues: false
@@ -32,7 +32,7 @@ grafana:
   sidecar:
     dashboards:
       enabled: true
-      label: grafana_dashboard   # the RailShack chart labels its dashboard ConfigMaps with this
+      label: grafana_dashboard   # the Railway-Apps chart labels its dashboard ConfigMaps with this
       labelValue: "1"
       searchNamespace: ALL
       folderAnnotation: grafana_folder   # ...and puts them in the folder this annotation names

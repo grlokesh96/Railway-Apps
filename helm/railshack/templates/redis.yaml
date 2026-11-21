@@ -1,4 +1,4 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 {{- if .Values.redis.enabled }}
@@ -7,16 +7,16 @@ kind: Deployment
 metadata:
   name: redis
   labels:
-    {{- include "railshack.labels" (dict "name" "redis" "lang" "infra" "root" $) | nindent 4 }}
+    {{- include "railway-apps.labels" (dict "name" "redis" "lang" "infra" "root" $) | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "railshack.selector" (dict "name" "redis" "root" $) | nindent 6 }}
+      {{- include "railway-apps.selector" (dict "name" "redis" "root" $) | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "railshack.labels" (dict "name" "redis" "lang" "infra" "root" $) | nindent 8 }}
+        {{- include "railway-apps.labels" (dict "name" "redis" "lang" "infra" "root" $) | nindent 8 }}
     spec:
       automountServiceAccountToken: false
       securityContext: { runAsNonRoot: true, runAsUser: 999, runAsGroup: 999, fsGroup: 999, seccompProfile: { type: RuntimeDefault } }
@@ -50,7 +50,7 @@ kind: Service
 metadata:
   name: redis
   labels:
-    {{- include "railshack.labels" (dict "name" "redis" "lang" "infra" "root" $) | nindent 4 }}
+    {{- include "railway-apps.labels" (dict "name" "redis" "lang" "infra" "root" $) | nindent 4 }}
 spec:
   ports:
     - { name: redis, port: 6379, targetPort: redis }
@@ -58,5 +58,5 @@ spec:
     - { name: metrics, port: 9121, targetPort: metrics }
     {{- end }}
   selector:
-    {{- include "railshack.selector" (dict "name" "redis" "root" $) | nindent 4 }}
+    {{- include "railway-apps.selector" (dict "name" "redis" "root" $) | nindent 4 }}
 {{- end }}

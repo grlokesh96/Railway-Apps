@@ -1,9 +1,9 @@
 {
- "uid": "railshack-service",
- "title": "RailShack · Service deep dive",
+ "uid": "railway-apps-service",
+ "title": "Railway-Apps · Service deep dive",
  "description": "Everything about one microservice: traffic, errors, latency, pods, CPU, memory, restarts, version.",
  "tags": [
-  "railshack",
+  "railway-apps",
   "devops-shack",
   "service"
  ],
@@ -28,10 +28,10 @@
  },
  "links": [
   {
-   "title": "RailShack dashboards",
+   "title": "Railway-Apps dashboards",
    "type": "dashboards",
    "tags": [
-    "railshack"
+    "railway-apps"
    ],
    "asDropdown": true,
    "includeVars": true,
@@ -58,14 +58,14 @@
      "uid": "${datasource}"
     },
     "query": {
-     "query": "label_values(railshack_up, namespace)",
+     "query": "label_values(railway-apps_up, namespace)",
      "refId": "ns"
     },
-    "definition": "label_values(railshack_up, namespace)",
+    "definition": "label_values(railway-apps_up, namespace)",
     "refresh": 2,
     "current": {
-     "text": "railshack",
-     "value": "railshack"
+     "text": "railway-apps",
+     "value": "railway-apps"
     },
     "hide": 0
    },
@@ -78,10 +78,10 @@
      "uid": "${datasource}"
     },
     "query": {
-     "query": "label_values(railshack_up{namespace=\"$namespace\"}, service)",
+     "query": "label_values(railway-apps_up{namespace=\"$namespace\"}, service)",
      "refId": "svc"
     },
-    "definition": "label_values(railshack_up{namespace=\"$namespace\"}, service)",
+    "definition": "label_values(railway-apps_up{namespace=\"$namespace\"}, service)",
     "refresh": 2,
     "sort": 1,
     "current": {
@@ -115,7 +115,7 @@
    "transparent": true,
    "options": {
     "mode": "html",
-    "content": "<div style=\"display:flex;align-items:center;gap:16px;padding:6px 4px\"><div style=\"font-size:26px;font-weight:700;color:#2563EB\">🚆 Service deep dive</div><div style=\"opacity:.75;font-size:14px\">Pick a service at the top. Every panel below follows it.</div><div style=\"margin-left:auto;font-size:12px;opacity:.6\">RailShack · a DevOps Shack project · devopsshack.com</div></div>"
+    "content": "<div style=\"display:flex;align-items:center;gap:16px;padding:6px 4px\"><div style=\"font-size:26px;font-weight:700;color:#2563EB\">🚆 Service deep dive</div><div style=\"opacity:.75;font-size:14px\">Pick a service at the top. Every panel below follows it.</div><div style=\"margin-left:auto;font-size:12px;opacity:.6\">Railway-Apps · a DevOps Shack project · devopsshack.com</div></div>"
    },
    "gridPos": {
     "h": 2,
@@ -236,7 +236,7 @@
    "targets": [
     {
      "refId": "A",
-     "expr": "max by (version) (railshack_build_info{namespace=\"$namespace\",service=\"$service\"})",
+     "expr": "max by (version) (railway-apps_build_info{namespace=\"$namespace\",service=\"$service\"})",
      "datasource": {
       "type": "prometheus",
       "uid": "${datasource}"
@@ -288,7 +288,7 @@
    "targets": [
     {
      "refId": "A",
-     "expr": "max by (language) (railshack_up{namespace=\"$namespace\",service=\"$service\"})",
+     "expr": "max by (language) (railway-apps_up{namespace=\"$namespace\",service=\"$service\"})",
      "datasource": {
       "type": "prometheus",
       "uid": "${datasource}"
@@ -401,7 +401,7 @@
    "targets": [
     {
      "refId": "A",
-     "expr": "sum (rate(railshack_http_requests_total{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval]))",
+     "expr": "sum (rate(railway-apps_http_requests_total{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval]))",
      "datasource": {
       "type": "prometheus",
       "uid": "${datasource}"
@@ -454,7 +454,7 @@
    "targets": [
     {
      "refId": "A",
-     "expr": "(sum (rate(railshack_http_requests_total{namespace=\"$namespace\",service=\"$service\",code=~\"5..\"}[$__rate_interval])) or vector(0)) / clamp_min(sum (rate(railshack_http_requests_total{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval])), 1e-9)",
+     "expr": "(sum (rate(railway-apps_http_requests_total{namespace=\"$namespace\",service=\"$service\",code=~\"5..\"}[$__rate_interval])) or vector(0)) / clamp_min(sum (rate(railway-apps_http_requests_total{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval])), 1e-9)",
      "datasource": {
       "type": "prometheus",
       "uid": "${datasource}"
@@ -524,7 +524,7 @@
    "targets": [
     {
      "refId": "A",
-     "expr": "sum (rate(railshack_http_request_duration_seconds_sum{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval])) / clamp_min(sum (rate(railshack_http_request_duration_seconds_count{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval])), 1e-9)",
+     "expr": "sum (rate(railway-apps_http_request_duration_seconds_sum{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval])) / clamp_min(sum (rate(railway-apps_http_request_duration_seconds_count{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval])), 1e-9)",
      "datasource": {
       "type": "prometheus",
       "uid": "${datasource}"
@@ -606,7 +606,7 @@
    "targets": [
     {
      "refId": "A",
-     "expr": "sum by (code) (rate(railshack_http_requests_total{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval]))",
+     "expr": "sum by (code) (rate(railway-apps_http_requests_total{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval]))",
      "datasource": {
       "type": "prometheus",
       "uid": "${datasource}"
@@ -713,7 +713,7 @@
    "targets": [
     {
      "refId": "A",
-     "expr": "sum by (method) (rate(railshack_http_requests_total{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval]))",
+     "expr": "sum by (method) (rate(railway-apps_http_requests_total{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval]))",
      "datasource": {
       "type": "prometheus",
       "uid": "${datasource}"
@@ -774,7 +774,7 @@
    "targets": [
     {
      "refId": "A",
-     "expr": "sum (rate(railshack_http_request_duration_seconds_sum{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval])) / clamp_min(sum (rate(railshack_http_request_duration_seconds_count{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval])), 1e-9)",
+     "expr": "sum (rate(railway-apps_http_request_duration_seconds_sum{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval])) / clamp_min(sum (rate(railway-apps_http_request_duration_seconds_count{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval])), 1e-9)",
      "datasource": {
       "type": "prometheus",
       "uid": "${datasource}"
@@ -871,7 +871,7 @@
    "targets": [
     {
      "refId": "A",
-     "expr": "(sum (rate(railshack_http_requests_total{namespace=\"$namespace\",service=\"$service\",code=~\"5..\"}[$__rate_interval])) or vector(0)) / clamp_min(sum (rate(railshack_http_requests_total{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval])), 1e-9)",
+     "expr": "(sum (rate(railway-apps_http_requests_total{namespace=\"$namespace\",service=\"$service\",code=~\"5..\"}[$__rate_interval])) or vector(0)) / clamp_min(sum (rate(railway-apps_http_requests_total{namespace=\"$namespace\",service=\"$service\"}[$__rate_interval])), 1e-9)",
      "datasource": {
       "type": "prometheus",
       "uid": "${datasource}"

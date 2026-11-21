@@ -1,8 +1,8 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 {{- range $name, $svc := .Values.services }}
-{{- $cfg := include "railshack.cfg" (dict "root" $ "svc" $svc) | fromYaml }}
+{{- $cfg := include "railway-apps.cfg" (dict "root" $ "svc" $svc) | fromYaml }}
 {{- $lang := get $.Values.languageDefaults $cfg.lang | default dict }}
 {{- $res := $cfg.resources | default $lang.resources }}
 {{- $tag := $cfg.tag | default $.Values.image.tag }}
@@ -12,10 +12,10 @@ kind: Deployment
 metadata:
   name: {{ $name }}
   annotations:
-    devopsshack.com/project: "RailShack - 50 Microservices Project by DevOps Shack"
+    devopsshack.com/project: "Railway-Apps - 50 Microservices Project by DevOps Shack"
     devopsshack.com/source: "https://github.com/jaiswaladi246/50-MicroServices-Project-By-DevOpsShack"
   labels:
-    {{- include "railshack.labels" (dict "name" $name "lang" $cfg.lang "root" $) | nindent 4 }}
+    {{- include "railway-apps.labels" (dict "name" $name "lang" $cfg.lang "root" $) | nindent 4 }}
 spec:
   {{- if not $cfg.autoscaling.enabled }}
   replicas: {{ $cfg.replicas }}
@@ -23,14 +23,14 @@ spec:
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      {{- include "railshack.selector" (dict "name" $name "root" $) | nindent 6 }}
+      {{- include "railway-apps.selector" (dict "name" $name "root" $) | nindent 6 }}
   strategy:
     type: RollingUpdate
     rollingUpdate: { maxSurge: 25%, maxUnavailable: 0 }
   template:
     metadata:
       labels:
-        {{- include "railshack.labels" (dict "name" $name "lang" $cfg.lang "root" $) | nindent 8 }}
+        {{- include "railway-apps.labels" (dict "name" $name "lang" $cfg.lang "root" $) | nindent 8 }}
       {{- with $cfg.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
@@ -53,14 +53,14 @@ spec:
           whenUnsatisfiable: ScheduleAnyway
           labelSelector:
             matchLabels:
-              {{- include "railshack.selector" (dict "name" $name "root" $) | nindent 14 }}
+              {{- include "railway-apps.selector" (dict "name" $name "root" $) | nindent 14 }}
       {{- with $cfg.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
         - name: {{ $name }}
-          image: "{{ $.Values.image.registry }}/{{ $.Values.image.repository }}/railshack-{{ $name }}:{{ $tag }}"
+          image: "{{ $.Values.image.registry }}/{{ $.Values.image.repository }}/railway-apps-{{ $name }}:{{ $tag }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           ports:
             - { name: http, containerPort: 8080, protocol: TCP }
@@ -74,14 +74,14 @@ spec:
             - { name: CLUSTER_NAME, value: {{ $.Values.app.clusterName | quote }} }
             - { name: PYTHONDONTWRITEBYTECODE, value: "1" }
             {{- if and $.Values.postgres.enabled (has $name (list "auth" "pnr" "booking-history")) }}
-            - { name: PGPASSWORD, valueFrom: { secretKeyRef: { name: railshack-postgres, key: POSTGRES_PASSWORD } } }
+            - { name: PGPASSWORD, valueFrom: { secretKeyRef: { name: railway-apps-postgres, key: POSTGRES_PASSWORD } } }
             - { name: DATABASE_URL, value: "postgres://{{ $.Values.postgres.user }}:$(PGPASSWORD)@postgres:5432/{{ $.Values.postgres.database }}" }
             {{- end }}
             {{- if and $.Values.redis.enabled (has $name (list "pnr" "booking-history")) }}
             - { name: REDIS_ADDR, value: "redis:6379" }
             {{- end }}
             {{- if eq $name "auth" }}
-            - { name: AUTH_SECRET, valueFrom: { secretKeyRef: { name: railshack-auth, key: AUTH_SECRET } } }
+            - { name: AUTH_SECRET, valueFrom: { secretKeyRef: { name: railway-apps-auth, key: AUTH_SECRET } } }
             {{- end }}
             {{- if eq $name "config" }}
             - { name: SALE_BANNER, value: {{ $.Values.app.saleBanner | quote }} }

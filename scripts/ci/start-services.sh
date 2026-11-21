@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
-# Runs all 50 RailShack microservices directly on your machine (no Docker needed).
+# Runs all 50 Railway-Apps microservices directly on your machine (no Docker needed).
 # Needs: Go 1.22+, Node.js 20+, Python 3.10+, JDK 21.
 # Used by CI only: starts all 50 services on the GitHub Actions runner for the end-to-end test.
 # Each service gets its own port from services.json (9001-9050); the smoke test talks to the frontend on 9050.

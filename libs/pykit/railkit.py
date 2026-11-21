@@ -1,7 +1,7 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
-"""railkit — shared runtime for every RailShack Python microservice.
+"""railkit — shared runtime for every Railway-Apps Python microservice.
 
 Standard library only. Gives each service health and readiness probes,
 Prometheus metrics, JSON logs, request-id propagation, service discovery,
@@ -23,10 +23,10 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlparse
 
 
-BRAND = {"project": "RailShack by DevOps Shack", "website": "https://devopsshack.com",
+BRAND = {"project": "Railway-Apps by DevOps Shack", "website": "https://devopsshack.com",
          "youtube": "https://www.youtube.com/@devopsshack",
          "source": "https://github.com/jaiswaladi246/50-MicroServices-Project-By-DevOpsShack", "license": "Apache-2.0"}
-POWERED_BY = "RailShack by DevOps Shack (devopsshack.com)"
+POWERED_BY = "Railway-Apps by DevOps Shack (devopsshack.com)"
 
 
 def env(k, d=None):
@@ -134,16 +134,16 @@ class Service:
         return self._route("POST", p)
 
     def metrics_text(self):
-        out = ["# TYPE railshack_http_requests_total counter"]
+        out = ["# TYPE railway-apps_http_requests_total counter"]
         with self.lock:
             for k, v in sorted(self.reqs.items()):
                 m, code = k.split("|")
-                out.append(f'railshack_http_requests_total{{service="{self.name}",method="{m}",code="{code}"}} {v}')
-            out.append("# TYPE railshack_http_request_duration_seconds summary")
-            out.append(f'railshack_http_request_duration_seconds_sum{{service="{self.name}"}} {self.dur_sum:.6f}')
-            out.append(f'railshack_http_request_duration_seconds_count{{service="{self.name}"}} {self.dur_count}')
-        out.append(f'railshack_up{{service="{self.name}",language="python"}} 1')
-        out.append(f'railshack_build_info{{service="{self.name}",version="{env("SERVICE_VERSION", "1.0.0")}",'
+                out.append(f'railway-apps_http_requests_total{{service="{self.name}",method="{m}",code="{code}"}} {v}')
+            out.append("# TYPE railway-apps_http_request_duration_seconds summary")
+            out.append(f'railway-apps_http_request_duration_seconds_sum{{service="{self.name}"}} {self.dur_sum:.6f}')
+            out.append(f'railway-apps_http_request_duration_seconds_count{{service="{self.name}"}} {self.dur_count}')
+        out.append(f'railway-apps_up{{service="{self.name}",language="python"}} 1')
+        out.append(f'railway-apps_build_info{{service="{self.name}",version="{env("SERVICE_VERSION", "1.0.0")}",'
                    f'project="{BRAND["project"]}",source="{BRAND["source"]}"}} 1')
         return "\n".join(out) + "\n"
 

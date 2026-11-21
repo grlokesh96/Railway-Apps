@@ -1,4 +1,4 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 # Extra Auto Mode NodePool for the Black Friday demo: small 2-vCPU Spot instances, so a
@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        railshack.devopsshack.com/pool: blackfriday
+        railway-apps.devopsshack.com/pool: blackfriday
     spec:
       nodeClassRef:
         group: eks.amazonaws.com

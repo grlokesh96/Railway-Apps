@@ -1,4 +1,4 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 {{- /*
@@ -11,10 +11,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: railshack-grafana
+  name: railway-apps-grafana
   namespace: {{ .Values.grafanaIngress.namespace }}
   labels:
-    {{- include "railshack.labels" (dict "name" "grafana" "lang" "infra" "root" $) | nindent 4 }}
+    {{- include "railway-apps.labels" (dict "name" "grafana" "lang" "infra" "root" $) | nindent 4 }}
   annotations:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/healthcheck-path: /api/health

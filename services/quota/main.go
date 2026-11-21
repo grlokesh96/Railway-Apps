@@ -1,11 +1,11 @@
-// RailShack · 50 Microservices Project by DevOps Shack
+// Railway-Apps · 50 Microservices Project by DevOps Shack
 // Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 // SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 
 // quota — reservation quota rules (General, Tatkal, Ladies, Senior Citizen).
 package main
 
-import "railshack/gokit"
+import "railway-apps/gokit"
 
 var quotas = map[string]map[string]any{
 	"GN": {"code": "GN", "name": "General", "share": 0.70, "openDaysBefore": 60},

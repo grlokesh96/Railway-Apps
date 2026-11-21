@@ -1,13 +1,13 @@
-// RailShack · 50 Microservices Project by DevOps Shack
+// Railway-Apps · 50 Microservices Project by DevOps Shack
 // Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 // SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 
-/* RailShack frontend · DevOps Shack
+/* Railway-Apps frontend · DevOps Shack
  * Vanilla JS, no build step. Every API call goes through the api-gateway; the
  * X-Trace response header lists every microservice the request touched, and we
  * animate those services on the mesh.
  */
-console.log('%c RailShack %c 50 Microservices Project by DevOps Shack ',
+console.log('%c Railway-Apps %c 50 Microservices Project by DevOps Shack ',
   'background:#00ffa3;color:#001510;font-weight:700;padding:4px 8px;border-radius:4px 0 0 4px',
   'background:#05060a;color:#00ffa3;padding:4px 8px;border:1px solid #00ffa3;border-radius:0 4px 4px 0');
 console.log('Built by DevOps Shack · https://devopsshack.com · https://www.youtube.com/@devopsshack');

@@ -1,4 +1,4 @@
-// RailShack · 50 Microservices Project by DevOps Shack
+// Railway-Apps · 50 Microservices Project by DevOps Shack
 // Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 // SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 
@@ -22,7 +22,7 @@ import (
 	"sync"
 	"time"
 
-	"railshack/gokit"
+	"railway-apps/gokit"
 )
 
 const iterations = 60000
@@ -31,7 +31,7 @@ var secret = []byte(func() string {
 	if v := os.Getenv("AUTH_SECRET"); v != "" {
 		return v
 	}
-	return "railshack-demo-secret" // Helm sets AUTH_SECRET from a Kubernetes Secret
+	return "railway-apps-demo-secret" // Helm sets AUTH_SECRET from a Kubernetes Secret
 }())
 
 var validUser = regexp.MustCompile(`^[a-z0-9][a-z0-9._-]{2,23}$`)

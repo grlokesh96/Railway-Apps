@@ -1,7 +1,7 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
-# The RailShack Grafana dashboards: one ConfigMap per file in helm/railshack/dashboards/.
+# The Railway-Apps Grafana dashboards: one ConfigMap per file in helm/railway-apps/dashboards/.
 # Grafana's sidecar (kube-prometheus-stack, cluster/monitoring-values.yaml) loads every ConfigMap
 # labelled grafana_dashboard=1 automatically, into the folder named by the grafana_folder annotation.
 {{- if .Values.grafanaDashboard.enabled }}
@@ -11,10 +11,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: railshack-dashboard-{{ $name }}
+  name: railway-apps-dashboard-{{ $name }}
   labels:
     grafana_dashboard: "1"
-    {{- include "railshack.labels" (dict "name" "grafana-dashboard" "lang" "infra" "root" $) | nindent 4 }}
+    {{- include "railway-apps.labels" (dict "name" "grafana-dashboard" "lang" "infra" "root" $) | nindent 4 }}
   annotations:
     grafana_folder: {{ $.Values.grafanaDashboard.folder | quote }}
 data:

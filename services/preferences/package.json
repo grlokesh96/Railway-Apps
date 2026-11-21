@@ -1,8 +1,8 @@
 {
-  "name": "railshack-preferences",
+  "name": "railway-apps-preferences",
   "version": "1.0.0",
   "private": true,
-  "description": "RailShack preferences microservice (DevOps Shack)",
+  "description": "Railway-Apps preferences microservice (DevOps Shack)",
   "main": "index.js",
   "scripts": { "start": "node index.js" },
   "engines": { "node": ">=20" }

@@ -1,4 +1,4 @@
-# RailShack · 50 Microservices Project by DevOps Shack
+# Railway-Apps · 50 Microservices Project by DevOps Shack
 # Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
 # SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 {{- /*
@@ -13,7 +13,7 @@ kind: IngressClassParams
 metadata:
   name: {{ .Release.Name }}-alb
   labels:
-    {{- include "railshack.labels" (dict "name" "frontend" "lang" "node" "root" $) | nindent 4 }}
+    {{- include "railway-apps.labels" (dict "name" "frontend" "lang" "node" "root" $) | nindent 4 }}
 spec:
   scheme: {{ .Values.access.alb.scheme }}
   group:
@@ -28,7 +28,7 @@ kind: IngressClass
 metadata:
   name: {{ .Release.Name }}-alb
   labels:
-    {{- include "railshack.labels" (dict "name" "frontend" "lang" "node" "root" $) | nindent 4 }}
+    {{- include "railway-apps.labels" (dict "name" "frontend" "lang" "node" "root" $) | nindent 4 }}
 spec:
   controller: eks.amazonaws.com/alb
   parameters:
@@ -39,9 +39,9 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: railshack
+  name: railway-apps
   labels:
-    {{- include "railshack.labels" (dict "name" "frontend" "lang" "node" "root" $) | nindent 4 }}
+    {{- include "railway-apps.labels" (dict "name" "frontend" "lang" "node" "root" $) | nindent 4 }}
   annotations:
     alb.ingress.kubernetes.io/target-type: ip                 # send traffic straight to the frontend pods
     alb.ingress.kubernetes.io/healthcheck-path: /healthz

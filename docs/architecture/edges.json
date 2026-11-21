@@ -1,5 +1,5 @@
 {
-  "_about": "Every service-to-service call in RailShack, taken from the source code. mode: call = synchronous HTTP (the caller waits), fire = fire-and-forget (runs in the background, never fails the request), proxy = request forwarding, sql = PostgreSQL (the source of truth), tcp = Redis (the cache).",
+  "_about": "Every service-to-service call in Railway-Apps, taken from the source code. mode: call = synchronous HTTP (the caller waits), fire = fire-and-forget (runs in the background, never fails the request), proxy = request forwarding, sql = PostgreSQL (the source of truth), tcp = Redis (the cache).",
   "edges": [
     [
       "frontend",
@@ -223,7 +223,7 @@
       "call",
       "POST",
       "/api/wallet/debit",
-      "Debit the RailShack wallet"
+      "Debit the Railway-Apps wallet"
     ],
     [
       "payment-gateway",

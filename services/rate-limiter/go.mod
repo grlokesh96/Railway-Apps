@@ -1,7 +1,7 @@
-module railshack/rate-limiter
+module railway-apps/rate-limiter
 
 go 1.22
 
-require railshack/gokit v0.0.0
+require railway-apps/gokit v0.0.0
 
-replace railshack/gokit => ../../libs/gokit
+replace railway-apps/gokit => ../../libs/gokit

@@ -1,9 +1,9 @@
 {
- "uid": "railshack-kubernetes",
- "title": "RailShack · Kubernetes & autoscaling",
+ "uid": "railway-apps-kubernetes",
+ "title": "Railway-Apps · Kubernetes & autoscaling",
  "description": "Nodes from EKS Auto Mode, pods, autoscalers and capacity. The Black Friday screen.",
  "tags": [
-  "railshack",
+  "railway-apps",
   "devops-shack",
   "kubernetes"
  ],
@@ -28,10 +28,10 @@
  },
  "links": [
   {
-   "title": "RailShack dashboards",
+   "title": "Railway-Apps dashboards",
    "type": "dashboards",
    "tags": [
-    "railshack"
+    "railway-apps"
    ],
    "asDropdown": true,
    "includeVars": true,
@@ -58,14 +58,14 @@
      "uid": "${datasource}"
     },
     "query": {
-     "query": "label_values(railshack_up, namespace)",
+     "query": "label_values(railway-apps_up, namespace)",
      "refId": "ns"
     },
-    "definition": "label_values(railshack_up, namespace)",
+    "definition": "label_values(railway-apps_up, namespace)",
     "refresh": 2,
     "current": {
-     "text": "railshack",
-     "value": "railshack"
+     "text": "railway-apps",
+     "value": "railway-apps"
     },
     "hide": 0
    }
@@ -94,7 +94,7 @@
    "transparent": true,
    "options": {
     "mode": "html",
-    "content": "<div style=\"display:flex;align-items:center;gap:16px;padding:6px 4px\"><div style=\"font-size:26px;font-weight:700;color:#2563EB\">🚆 Kubernetes & autoscaling</div><div style=\"opacity:.75;font-size:14px\">EKS Auto Mode (managed Karpenter) adds nodes · HPAs add pods · watch both react</div><div style=\"margin-left:auto;font-size:12px;opacity:.6\">RailShack · a DevOps Shack project · devopsshack.com</div></div>"
+    "content": "<div style=\"display:flex;align-items:center;gap:16px;padding:6px 4px\"><div style=\"font-size:26px;font-weight:700;color:#2563EB\">🚆 Kubernetes & autoscaling</div><div style=\"opacity:.75;font-size:14px\">EKS Auto Mode (managed Karpenter) adds nodes · HPAs add pods · watch both react</div><div style=\"margin-left:auto;font-size:12px;opacity:.6\">Railway-Apps · a DevOps Shack project · devopsshack.com</div></div>"
    },
    "gridPos": {
     "h": 2,

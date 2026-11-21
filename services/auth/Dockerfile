@@ -18,9 +18,6 @@ LABEL org.opencontainers.image.title="railshack-auth" \
       org.opencontainers.image.description="RailShack auth microservice · 50 Microservices Project by DevOps Shack" \
       org.opencontainers.image.vendor="DevOps Shack" \
       org.opencontainers.image.authors="DevOps Shack <office@devopsshack.com>" \
-      org.opencontainers.image.url="https://devopsshack.com" \
-      org.opencontainers.image.source="https://github.com/jaiswaladi246/50-MicroServices-Project-By-DevOpsShack" \
-      org.opencontainers.image.documentation="https://www.youtube.com/@devopsshack" \
       org.opencontainers.image.licenses="Apache-2.0" \
       com.devopsshack.project="RailShack - 50 Microservices Project by DevOps Shack"
 COPY NOTICE /NOTICE

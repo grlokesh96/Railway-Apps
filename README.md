@@ -422,16 +422,3 @@ If this project helped you, ⭐ **star the repo** and **subscribe on YouTube** �
 RailShack is © 2026 **DevOps Shack (Aditya Jaiswal)** and licensed under the [Apache License 2.0](LICENSE).
 
 You are welcome to learn from it, run it and build on it. If you redistribute it, or anything derived from it, the license requires you to:
-
-1. keep the [`NOTICE`](NOTICE) file's attribution to DevOps Shack;
-2. keep the copyright and license headers in the source files;
-3. mark the files you changed.
-
-"DevOps Shack" and "RailShack" are names of DevOps Shack; the license does not let you use them to present this project as your own work or course. Using RailShack in a video, course, blog post or portfolio? Credit it as **"RailShack by DevOps Shack"** and link to [youtube.com/@devopsshack](https://www.youtube.com/@devopsshack).
-
-<p align="center">
-  <br/>
-  <a href="https://www.youtube.com/@devopsshack"><img alt="Subscribe on YouTube" src="https://img.shields.io/badge/Subscribe-DevOps%20Shack-FF0000?style=for-the-badge&logo=youtube&logoColor=white"></a>
-  <br/><br/>
-  <sub>Built with care by <a href="https://devopsshack.com"><b>DevOps Shack</b></a> · Learn DevOps the way companies run it</sub>
-</p>

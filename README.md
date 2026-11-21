@@ -393,27 +393,3 @@ docs/architecture/      architecture diagrams (PNG) + every service-to-service c
 | `FAIL_RATE` | Fails that fraction of requests, e.g. `0.3` |
 
 ---
-
-## 🎓 Learn with DevOps Shack
-
-<table>
-  <tr>
-    <td>
-      <b>This project was built by DevOps Shack</b> to show how microservices, Kubernetes, Helm and CI/CD work together at production scale.
-      <br/><br/>
-      ▶ <b>Watch the build, the deployment and the live sessions on YouTube:</b> <a href="https://www.youtube.com/@devopsshack">youtube.com/@devopsshack</a><br/>
-      🌐 <b>Courses and the DevSecOps + Cloud + AI bootcamp:</b> <a href="https://devopsshack.com">devopsshack.com</a><br/>
-      ✉️ <b>Contact:</b> <a href="mailto:office@devopsshack.com">office@devopsshack.com</a>
-    </td>
-  </tr>
-</table>
-
-If this project helped you, ⭐ **star the repo** and **subscribe on YouTube** — it helps us keep building projects like this.
-
----
-
-## 📄 License and attribution
-
-RailShack is © 2026 **DevOps Shack (Aditya Jaiswal)** and licensed under the [Apache License 2.0](LICENSE).
-
-You are welcome to learn from it, run it and build on it. If you redistribute it, or anything derived from it, the license requires you to:

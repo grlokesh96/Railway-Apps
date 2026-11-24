@@ -1,6 +1,3 @@
-# Railway-Apps · 50 Microservices Project by DevOps Shack
-# Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
-# SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
 # CI — test all 50 microservices, validate the Helm chart, build and push images to GHCR.
 #
 # On every push and pull request:

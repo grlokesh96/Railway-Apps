@@ -1,6 +1,4 @@
-# Railway-Apps · 50 Microservices Project by DevOps Shack
-# Copyright (c) 2026 DevOps Shack (Aditya Jaiswal) · https://devopsshack.com · https://www.youtube.com/@devopsshack
-# SPDX-License-Identifier: Apache-2.0 · Keep this notice and the NOTICE file in any copy or derivative work.
+# Railway-Apps · 50 Microservices Project
 # CD — deploy Railway-Apps to AWS EKS with Helm, together with Prometheus + Grafana for its metrics.
 #
 # Runs automatically when CI succeeds on main, or manually from the Actions tab.
